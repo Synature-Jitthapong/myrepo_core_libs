@@ -1,7 +1,10 @@
 package com.j1tth4.mobile.core.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -9,38 +12,40 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 public class MyMediaPlayer implements OnBufferingUpdateListener,
 		OnCompletionListener, OnPreparedListener, 
-		OnVideoSizeChangedListener, SurfaceHolder.Callback {
+		OnVideoSizeChangedListener, SurfaceHolder.Callback{
 	
 	private static final String TAG = "MyMediaPlayer";
+	private MediaManager mediaManager;
+	private String mediaPath;
+	private ArrayList<HashMap<String, String>> playLst;
 	private int mVideoWidth;
 	private int mVideoHeight;
 	private boolean mIsVideoSizeKnown = false;
 	private boolean mIsVideoReadyToBePlayed = false;
+	private int currMediaIndex = -1;
 	
-	private SurfaceHolder holder;
+	private Context context;
+	private SurfaceView surface;
+	private SurfaceHolder surfaceHolder;
 	private MediaPlayer mMediaPlayer;
 	
-	public MyMediaPlayer(SurfaceHolder surHolder){
-		holder = surHolder;
+	public MyMediaPlayer(Context c, SurfaceView sf, SurfaceHolder surHolder, String mPath){
+		context = c;
+		surface = sf;
+		surfaceHolder = surHolder;
+		surfaceHolder.addCallback(this);
+		mediaPath = mPath;
 		
-		try {
-		
-			mMediaPlayer = new MediaPlayer();
-			// set datasource
-		
-			mMediaPlayer.setDisplay(holder);
-			mMediaPlayer.prepare();
-			mMediaPlayer.setOnPreparedListener(this);
-			mMediaPlayer.setOnCompletionListener(this);
-			mMediaPlayer.setOnBufferingUpdateListener(this);
-		} catch (IllegalStateException e) {
-			Log.e(TAG, "error: " + e.getMessage(), e);
-		} catch (IOException e) {
-			Log.e(TAG, "error: " + e.getMessage(), e);
-		}
+		mMediaPlayer = new MediaPlayer();
+		mMediaPlayer.setScreenOnWhilePlaying(true);
+		mMediaPlayer.setOnPreparedListener(this);
+		mMediaPlayer.setOnCompletionListener(this);
+		mMediaPlayer.setOnBufferingUpdateListener(this);
+		mMediaPlayer.setOnVideoSizeChangedListener(this);
 	}
 
     public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
@@ -52,9 +57,9 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
         mIsVideoSizeKnown = true;
         mVideoWidth = width;
         mVideoHeight = height;
-        if (mIsVideoReadyToBePlayed && mIsVideoSizeKnown) {
-            startVideoPlayback();
-        }
+//        if (mIsVideoReadyToBePlayed && mIsVideoSizeKnown) {
+//            startVideoPlayback();
+//        }
     }
 
     public void onPrepared(MediaPlayer mediaplayer) {
@@ -65,23 +70,6 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
         }
     }
 
-    public void surfaceChanged(SurfaceHolder surfaceholder, int i, int j, int k) {
-        Log.d(TAG, "surfaceChanged called");
-
-    }
-
-    public void surfaceDestroyed(SurfaceHolder surfaceholder) {
-        Log.d(TAG, "surfaceDestroyed called");
-    }
-
-
-    public void surfaceCreated(SurfaceHolder holder) {
-        Log.d(TAG, "surfaceCreated called");
-        //playVideo(extras.getInt(MEDIA));
-
-
-    }
-
     public void releaseMediaPlayer() {
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
@@ -90,19 +78,107 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
     }
 
     private void startVideoPlayback() {
-        Log.v(TAG, "startVideoPlayback");
-        holder.setFixedSize(mVideoWidth, mVideoHeight);
-        mMediaPlayer.start();
+		Log.v(TAG, "startVideoPlayback");
+		
+		float boxWidth = surface.getWidth();
+		float boxHeight = surface.getHeight();
+		float videoWidth = mVideoWidth;
+		float videoHeight = mVideoHeight;
+		
+		float widthRatio = boxWidth / videoWidth;
+		float heightRatio = boxHeight / videoHeight;
+		float aspectRatio = videoWidth / videoHeight;
+
+		if (widthRatio > heightRatio)
+			mVideoWidth = (int) (boxHeight * aspectRatio);
+		else
+			mVideoHeight = (int) (boxWidth / aspectRatio);
+
+		surfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
+		mMediaPlayer.start();
     }
 
 	@Override
 	public void onCompletion(MediaPlayer mp) {
+		try {
+			if(currMediaIndex < (playLst.size() - 1)){
+				currMediaIndex ++;
+				playMedia();
+			}else{
+				currMediaIndex = 0;
+				readMedia();
+				playMedia();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void doCleanUp() {
+		mVideoWidth = 0;
+		mVideoHeight = 0;
+		mIsVideoReadyToBePlayed = false;
+		mIsVideoSizeKnown = false;
+	}
+	 
+	private void playMedia(){
+		doCleanUp();
+		try {
+			mMediaPlayer.reset();
+			mMediaPlayer.setDataSource(playLst.get(currMediaIndex).get("vdoPath"));
+			mMediaPlayer.setDisplay(surfaceHolder);
+			mMediaPlayer.prepare();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void readMedia(){
+		mediaManager = new MediaManager(context, mediaPath);
+		playLst = mediaManager.getPlayList();
+	}
+	
+	@Override
+	public void onBufferingUpdate(MediaPlayer mp, int percent) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onBufferingUpdate(MediaPlayer mp, int percent) {
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		// TODO Auto-generated method stub
+		readMedia();
+		try {
+			if(playLst.size() > 0){
+				currMediaIndex = 0;
+				playMedia();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
 		
 	}
