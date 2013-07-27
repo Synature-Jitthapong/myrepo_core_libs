@@ -52,14 +52,14 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
         Log.v(TAG, "onVideoSizeChanged called");
         if (width == 0 || height == 0) {
             Log.e(TAG, "invalid video width(" + width + ") or height(" + height + ")");
-            return;
+            
+            mVideoWidth = surface.getWidth();
+            mVideoHeight = surface.getHeight();
+        }else{
+	        mVideoWidth = width;
+	        mVideoHeight = height;
         }
         mIsVideoSizeKnown = true;
-        mVideoWidth = width;
-        mVideoHeight = height;
-//        if (mIsVideoReadyToBePlayed && mIsVideoSizeKnown) {
-//            startVideoPlayback();
-//        }
     }
 
     public void onPrepared(MediaPlayer mediaplayer) {
@@ -80,19 +80,19 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
     private void startVideoPlayback() {
 		Log.v(TAG, "startVideoPlayback");
 		
-		float boxWidth = surface.getWidth();
-		float boxHeight = surface.getHeight();
-		float videoWidth = mVideoWidth;
-		float videoHeight = mVideoHeight;
+//		float boxWidth = surface.getWidth();
+//		float boxHeight = surface.getHeight();
+//		float videoWidth = mVideoWidth;
+//		float videoHeight = mVideoHeight;
 		
-		float widthRatio = boxWidth / videoWidth;
-		float heightRatio = boxHeight / videoHeight;
-		float aspectRatio = videoWidth / videoHeight;
+//		float widthRatio = boxWidth / videoWidth;
+//		float heightRatio = boxHeight / videoHeight;
+//		float aspectRatio = videoWidth / videoHeight;
 
-		if (widthRatio > heightRatio)
-			mVideoWidth = (int) (boxHeight * aspectRatio);
-		else
-			mVideoHeight = (int) (boxWidth / aspectRatio);
+//		if (widthRatio > heightRatio)
+//			mVideoWidth = (int) (boxHeight * aspectRatio);
+//		else
+//			mVideoHeight = (int) (boxWidth / aspectRatio);
 
 		surfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
 		mMediaPlayer.start();
