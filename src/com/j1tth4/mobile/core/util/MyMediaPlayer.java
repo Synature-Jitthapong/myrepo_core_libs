@@ -22,6 +22,8 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 	private MediaManager mediaManager;
 	private String mediaPath;
 	private ArrayList<HashMap<String, String>> playLst;
+	private String currPlayFileName;
+	
 	private int mVideoWidth;
 	private int mVideoHeight;
 	private boolean mIsVideoSizeKnown = false;
@@ -29,13 +31,11 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 	private int currMediaIndex = -1;
 	
 	private Context context;
-	private SurfaceView surface;
 	private SurfaceHolder surfaceHolder;
 	private MediaPlayer mMediaPlayer;
 	
-	public MyMediaPlayer(Context c, SurfaceView sf, SurfaceHolder surHolder, String mPath){
+	public MyMediaPlayer(Context c, SurfaceHolder surHolder, String mPath){
 		context = c;
-		surface = sf;
 		surfaceHolder = surHolder;
 		surfaceHolder.addCallback(this);
 		mediaPath = mPath;
@@ -52,13 +52,10 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
         Log.v(TAG, "onVideoSizeChanged called");
         if (width == 0 || height == 0) {
             Log.e(TAG, "invalid video width(" + width + ") or height(" + height + ")");
-            
-            mVideoWidth = surface.getWidth();
-            mVideoHeight = surface.getHeight();
-        }else{
-	        mVideoWidth = width;
-	        mVideoHeight = height;
+            return;
         }
+        mVideoWidth = width;
+        mVideoHeight = height;
         mIsVideoSizeKnown = true;
     }
 
@@ -66,7 +63,7 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
         Log.d(TAG, "onPrepared called");
         mIsVideoReadyToBePlayed = true;
         if (mIsVideoReadyToBePlayed && mIsVideoSizeKnown) {
-            startVideoPlayback();
+        	startVideoPlayback();
         }
     }
 
@@ -84,11 +81,11 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 //		float boxHeight = surface.getHeight();
 //		float videoWidth = mVideoWidth;
 //		float videoHeight = mVideoHeight;
-		
+//		
 //		float widthRatio = boxWidth / videoWidth;
 //		float heightRatio = boxHeight / videoHeight;
 //		float aspectRatio = videoWidth / videoHeight;
-
+//
 //		if (widthRatio > heightRatio)
 //			mVideoWidth = (int) (boxHeight * aspectRatio);
 //		else
@@ -125,6 +122,7 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 	private void playMedia(){
 		doCleanUp();
 		try {
+			currPlayFileName = playLst.get(currMediaIndex).get("vdoTitle");
 			mMediaPlayer.reset();
 			mMediaPlayer.setDataSource(playLst.get(currMediaIndex).get("vdoPath"));
 			mMediaPlayer.setDisplay(surfaceHolder);
@@ -182,4 +180,13 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 		// TODO Auto-generated method stub
 		
 	}
+
+	public ArrayList<HashMap<String, String>> getPlayLst() {
+		return playLst;
+	}
+
+	public String getCurrPlayFileName() {
+		return currPlayFileName;
+	}
+
 }
