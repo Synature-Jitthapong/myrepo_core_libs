@@ -14,15 +14,13 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class MyMediaPlayer implements OnBufferingUpdateListener,
-		OnCompletionListener, OnPreparedListener, 
+public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener, 
 		OnVideoSizeChangedListener, SurfaceHolder.Callback{
 	
 	private static final String TAG = "MyMediaPlayer";
 	private MediaManager mediaManager;
 	private String mediaPath;
 	private ArrayList<HashMap<String, String>> playLst;
-	private String currPlayFileName;
 	
 	private int mVideoWidth;
 	private int mVideoHeight;
@@ -31,21 +29,21 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 	private int currMediaIndex = -1;
 	
 	private Context context;
+	private SurfaceView surface;
 	private SurfaceHolder surfaceHolder;
 	private MediaPlayer mMediaPlayer;
 	
-	public MyMediaPlayer(Context c, SurfaceHolder surHolder, String mPath){
+	private MediaPlayerStateListener listener;
+	
+	public MyMediaPlayer(Context c, SurfaceView surfaceView, String mPath, MediaPlayerStateListener state){
 		context = c;
-		surfaceHolder = surHolder;
+		surface = surfaceView;
+		surfaceHolder = surface.getHolder();
 		surfaceHolder.addCallback(this);
 		mediaPath = mPath;
+		listener = state;
 		
 		mMediaPlayer = new MediaPlayer();
-		mMediaPlayer.setScreenOnWhilePlaying(true);
-		mMediaPlayer.setOnPreparedListener(this);
-		mMediaPlayer.setOnCompletionListener(this);
-		mMediaPlayer.setOnBufferingUpdateListener(this);
-		mMediaPlayer.setOnVideoSizeChangedListener(this);
 	}
 
     public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
@@ -57,6 +55,9 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
         mVideoWidth = width;
         mVideoHeight = height;
         mIsVideoSizeKnown = true;
+        if (mIsVideoReadyToBePlayed && mIsVideoSizeKnown) {
+            startVideoPlayback();
+        }
     }
 
     public void onPrepared(MediaPlayer mediaplayer) {
@@ -107,7 +108,7 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 				playMedia();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			listener.onError(e);
 			e.printStackTrace();
 		}
 	}
@@ -122,22 +123,27 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 	private void playMedia(){
 		doCleanUp();
 		try {
-			currPlayFileName = playLst.get(currMediaIndex).get("vdoTitle");
 			mMediaPlayer.reset();
 			mMediaPlayer.setDataSource(playLst.get(currMediaIndex).get("vdoPath"));
 			mMediaPlayer.setDisplay(surfaceHolder);
 			mMediaPlayer.prepare();
+			mMediaPlayer.setScreenOnWhilePlaying(true);
+			mMediaPlayer.setOnPreparedListener(this);
+			mMediaPlayer.setOnCompletionListener(this);
+			mMediaPlayer.setOnVideoSizeChangedListener(this);
+			
+			listener.onPlayedFileName(playLst.get(currMediaIndex).get("vdoTitle"));
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
+			listener.onError(e);
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+			listener.onError(e);
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
+			listener.onError(e);
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			listener.onError(e);
 			e.printStackTrace();
 		}
 	}
@@ -145,12 +151,6 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 	private void readMedia(){
 		mediaManager = new MediaManager(context, mediaPath);
 		playLst = mediaManager.getPlayList();
-	}
-	
-	@Override
-	public void onBufferingUpdate(MediaPlayer mp, int percent) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -170,7 +170,7 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 				playMedia();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			listener.onError(e);
 			e.printStackTrace();
 		}
 	}
@@ -185,8 +185,8 @@ public class MyMediaPlayer implements OnBufferingUpdateListener,
 		return playLst;
 	}
 
-	public String getCurrPlayFileName() {
-		return currPlayFileName;
+	public static interface MediaPlayerStateListener{
+		public void onPlayedFileName(String fileName);
+		public void onError(Exception e);
 	}
-
 }

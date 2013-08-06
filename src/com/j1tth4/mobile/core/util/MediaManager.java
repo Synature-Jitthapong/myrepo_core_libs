@@ -31,9 +31,7 @@ public class MediaManager {
 		if (files.length > 0) {
 			for (File file : files) {
 				HashMap<String, String> vdo = new HashMap<String, String>();
-				vdo.put("vdoTitle",
-						file.getName().substring(0,
-								(file.getName().length() - 4)));
+				vdo.put("vdoTitle", file.getName());
 				vdo.put("vdoPath", file.getPath());
 
 				vdoList.add(vdo);
