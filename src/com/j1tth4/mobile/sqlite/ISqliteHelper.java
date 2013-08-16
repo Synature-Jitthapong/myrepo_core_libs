@@ -1,4 +1,4 @@
-package com.j1tth4.mobile.core.sqlite;
+package com.j1tth4.mobile.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;

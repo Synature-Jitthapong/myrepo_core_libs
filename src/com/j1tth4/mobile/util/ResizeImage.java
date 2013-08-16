@@ -1,4 +1,4 @@
-package com.j1tth4.mobile.core.util;
+package com.j1tth4.mobile.util;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Matrix;

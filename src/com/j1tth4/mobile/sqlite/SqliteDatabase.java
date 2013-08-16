@@ -1,11 +1,11 @@
-package com.j1tth4.mobile.core.sqlite;
+package com.j1tth4.mobile.sqlite;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.j1tth4.mobile.core.util.FileManager;
+import com.j1tth4.mobile.util.FileManager;
 
 import android.content.Context;
 import android.database.SQLException;
