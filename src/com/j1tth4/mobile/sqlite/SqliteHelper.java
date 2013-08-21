@@ -3,7 +3,7 @@ package com.j1tth4.mobile.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-public interface ISqliteHelper {
+public interface SqliteHelper {
 	public void open();
 	public void close();
 	public boolean insert(String table, ContentValues cv);

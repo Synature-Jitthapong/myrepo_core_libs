@@ -13,14 +13,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public abstract class SqliteDatabase extends SQLiteOpenHelper {
+public abstract class SqliteExternalDatabase extends SQLiteOpenHelper {
 	protected FileManager fileManager;
 	protected String dbFilePath;
 	public SQLiteDatabase db;
 	private String dbName;
 	private final Context myContext;
 	
-	public SqliteDatabase(Context context, String dbDir, String dbName) {
+	public SqliteExternalDatabase(Context context, String dbDir, String dbName) {
 		super(context, dbName, null, 1);
 		this.myContext = context;
 		this.dbName = dbName;
