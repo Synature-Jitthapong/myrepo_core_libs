@@ -3,6 +3,7 @@ package com.syn.mpos.db;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
@@ -44,9 +45,9 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 	@Override
 	public int openTransaction(int computerId, int shopId,
 			int sessionId, int staffId) {
-		
-		Date date = new Date();
+
 		int transactionId = getMaxTransaction(computerId);
+		Calendar calendar = getCalendar();
 		
 		ContentValues cv = new ContentValues();
 		cv.put("transaction_id", transactionId);
@@ -54,11 +55,11 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		cv.put("shop_id", shopId);
 		cv.put("session_id", sessionId);
 		cv.put("open_staff_id", staffId);
-		cv.put("open_time", date.getTime());
+		cv.put("open_time", calendar.getTimeInMillis());
 		cv.put("open_staff_id", staffId);
-		cv.put("sale_date", date.getTime());
-		cv.put("receipt_year", Calendar.getInstance().get(Calendar.YEAR));
-		cv.put("receipt_month", Calendar.getInstance().get(Calendar.MONTH));
+		cv.put("sale_date", calendar.getTimeInMillis());
+		cv.put("receipt_year", calendar.get(Calendar.YEAR));
+		cv.put("receipt_month", calendar.get(Calendar.MONTH));
 		
 		dbHelper.open();
 		
@@ -73,8 +74,15 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 	@Override
 	public boolean successTransaction(int transactionId, int computerId){
 		boolean isSuccess = false;
+		
+		Calendar calendar = getCalendar();
+		int receiptId = getMaxReceiptId(computerId, calendar.get(Calendar.YEAR), 
+				calendar.get(Calendar.MONTH));
+		
 		String strSql = "UPDATE order_transaction " +
-				" SET transaction_status_id=2 " +
+				" SET transaction_status_id=2, " +
+				" receipt_id=" + receiptId + ", " +
+				" close_time=" + calendar.getTimeInMillis() +
 				" WHERE transaction_id=" + transactionId + 
 				" AND computer_id=" + computerId;
 		
@@ -187,15 +195,14 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 	}
 
 	@Override
-	public int getMaxReceiptId(int transactionId, int computerId, int year, int month) {
+	public int getMaxReceiptId(int computerId, int year, int month) {
 		int maxReceiptId = 0;
 		
 		String strSql = "SELECT MAX(receipt_id) FROM order_transaction " +
-				" WHERE transaction_id=" + transactionId +
-				" AND computer_id=" + computerId +
+				" WHERE computer_id=" + computerId +
 				" AND receipt_year=" + year + 
 				" AND receipt_month=" + month + 
-				" AND document_status_id = 2";
+				" AND transaction_status_id = 2";
 		
 		dbHelper.open();
 		Cursor cursor = dbHelper.rawQuery(strSql);

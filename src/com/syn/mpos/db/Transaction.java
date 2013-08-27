@@ -8,7 +8,7 @@ package com.syn.mpos.db;
 public interface Transaction {
 	int getMaxTransaction(int computerId);
 
-	int getMaxReceiptId(int transactionId, int computerId, int year, int month);
+	int getMaxReceiptId(int computerId, int year, int month);
 
 	int getCurrTransaction(int computerId);
 
