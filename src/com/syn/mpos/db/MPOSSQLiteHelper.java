@@ -1,5 +1,7 @@
 package com.syn.mpos.db;
 
+import com.j1tth4.mobile.sqlite.SQLiteHelper;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,7 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
  * @author j1tth4
  *
  */
-public class MPOSSQLiteHelper{
+public class MPOSSQLiteHelper implements SQLiteHelper{
 	private SQLiteDatabase db;
 	private MPOSSQLiteDatabase sqlite;
 	private MPOSLog mposLog;
@@ -21,14 +23,17 @@ public class MPOSSQLiteHelper{
 		mposLog = new MPOSLog(c);
 	}
 	
+	@Override
 	public void open() {
 		db = sqlite.getWritableDatabase();
 	}
-
+	
+	@Override
 	public void close() {
 		sqlite.close();
 	}
 
+	@Override
 	public boolean insert(String table, ContentValues cv){
 		boolean isSucc = false;
 		
@@ -43,11 +48,13 @@ public class MPOSSQLiteHelper{
 		return isSucc;
 	}
 
+	@Override
 	public Cursor rawQuery(String sqlQuery){
 		Cursor cursor = db.rawQuery(sqlQuery, null);
 		return cursor;
 	}
 
+	@Override
 	public boolean execSQL(String sqlExec){
 		boolean isSucc = false;
 		try {

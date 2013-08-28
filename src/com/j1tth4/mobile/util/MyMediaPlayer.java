@@ -78,19 +78,19 @@ public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener,
     private void startVideoPlayback() {
 		Log.v(TAG, "startVideoPlayback");
 		
-//		float boxWidth = surface.getWidth();
-//		float boxHeight = surface.getHeight();
-//		float videoWidth = mVideoWidth;
-//		float videoHeight = mVideoHeight;
-//		
-//		float widthRatio = boxWidth / videoWidth;
-//		float heightRatio = boxHeight / videoHeight;
-//		float aspectRatio = videoWidth / videoHeight;
-//
-//		if (widthRatio > heightRatio)
-//			mVideoWidth = (int) (boxHeight * aspectRatio);
-//		else
-//			mVideoHeight = (int) (boxWidth / aspectRatio);
+		float boxWidth = surface.getWidth();
+		float boxHeight = surface.getHeight();
+		float videoWidth = mVideoWidth;
+		float videoHeight = mVideoHeight;
+		
+		float widthRatio = boxWidth / videoWidth;
+		float heightRatio = boxHeight / videoHeight;
+		float aspectRatio = videoWidth / videoHeight;
+
+		if (widthRatio > heightRatio)
+			mVideoWidth = (int) (boxHeight * aspectRatio);
+		else
+			mVideoHeight = (int) (boxWidth / aspectRatio);
 
 		surfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
 		mMediaPlayer.start();
@@ -98,6 +98,17 @@ public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener,
 
 	@Override
 	public void onCompletion(MediaPlayer mp) {
+		nextTrack();
+	}
+	
+	private void doCleanUp() {
+		mVideoWidth = 0;
+		mVideoHeight = 0;
+		mIsVideoReadyToBePlayed = false;
+		mIsVideoSizeKnown = false;
+	}
+	 
+	private void nextTrack(){
 		try {
 			if(currMediaIndex < (playLst.size() - 1)){
 				currMediaIndex ++;
@@ -113,13 +124,24 @@ public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener,
 		}
 	}
 	
-	private void doCleanUp() {
-		mVideoWidth = 0;
-		mVideoHeight = 0;
-		mIsVideoReadyToBePlayed = false;
-		mIsVideoSizeKnown = false;
+	public void next(){
+		nextTrack();
 	}
-	 
+	
+	public void back(){
+		if(currMediaIndex-- < 0);
+			currMediaIndex = 0;
+		playMedia();
+	}
+	
+	public void resume(){
+		mMediaPlayer.start();
+	}
+	
+	public void pause(){
+		mMediaPlayer.pause();
+	}
+	
 	private void playMedia(){
 		doCleanUp();
 		try {
