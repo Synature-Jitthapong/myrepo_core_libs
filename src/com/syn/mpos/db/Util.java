@@ -9,7 +9,13 @@ import java.util.GregorianCalendar;
  *
  */
 public abstract class Util {
-	protected Calendar getCalendar(){
+	protected Calendar getDate(){
+		Calendar calendar = Calendar.getInstance();
+		return calendar = new GregorianCalendar(calendar.get(Calendar.YEAR), 
+				calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+	}
+	
+	protected Calendar getDateTime(){
 		Calendar calendar = Calendar.getInstance();
 		return calendar = new GregorianCalendar(calendar.get(Calendar.YEAR), 
 				calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),

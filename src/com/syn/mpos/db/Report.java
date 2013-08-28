@@ -52,6 +52,47 @@ public class Report {
 		return menuGroups;
 	}
 	
+	public ArrayList<HashMap<String, String>> getSaleReportByBill(){
+		ArrayList<HashMap<String, String>> reports = 
+				new ArrayList<HashMap<String, String>>();
+		
+		String strSql = " SELECT SUM(a.transaction_id) AS totalBill, " +
+				" SUM(b.total_sale_price) AS totalSalePrice, " +
+				" SUM(b.product_amount) AS totalAmount, " +
+				" SUM(b.total_product_price) AS totalProductPrice, " +
+				" SUM(b.each_product_discount) AS totalDiscount " +
+				" FROM order_transaction a " +
+				" LEFT JOIN order_detail b " +
+				" ON a.transaction_id=b.transaction_id " +
+				" AND a.computer_id=b.computer_id " +
+				" WHERE a.transaction_status_id=2 " +
+				" AND a.sale_date >= " + dateFrom + 
+				" AND a.sale_date <= " + dateTo + 
+				" GROUP BY a.sale_date";
+		
+		dbHelper.open();
+		
+		Cursor cursor = dbHelper.rawQuery(strSql);
+		if(cursor.moveToFirst()){
+			do{
+				HashMap<String, String> report =
+						new HashMap<String, String>();
+				report.put("totalBill", cursor.getString(cursor.getColumnIndex("totalBill")));
+				report.put("totalSalePrice", cursor.getString(cursor.getColumnIndex("totalSalePrice")));
+				report.put("totalAmount", cursor.getString(cursor.getColumnIndex("totalAmount")));
+				report.put("totalProductPrice", cursor.getString(cursor.getColumnIndex("totalProductPrice")));
+				report.put("totalDiscount", cursor.getString(cursor.getColumnIndex("totalDiscount")));
+				
+				reports.add(report);
+			}while(cursor.moveToNext());
+		}
+		cursor.close();
+		
+		dbHelper.close();
+		
+		return reports;
+	}
+	
 	public ArrayList<HashMap<String, String>> getSaleReportByProduct(int menuDeptId){
 		ArrayList<HashMap<String, String>> reports = 
 				new ArrayList<HashMap<String, String>>();

@@ -8,6 +8,8 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
+
 import com.syn.mpos.model.OrderTransaction;
 
 /**
@@ -47,7 +49,11 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 			int sessionId, int staffId) {
 
 		int transactionId = getMaxTransaction(computerId);
-		Calendar calendar = getCalendar();
+		Calendar dateTime = getDateTime();
+		Calendar date = getDate();
+		
+		Log.d("dateTime", dateTime.getTime().toString());
+		Log.i("date", date.getTime().toString());
 		
 		ContentValues cv = new ContentValues();
 		cv.put("transaction_id", transactionId);
@@ -55,11 +61,11 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		cv.put("shop_id", shopId);
 		cv.put("session_id", sessionId);
 		cv.put("open_staff_id", staffId);
-		cv.put("open_time", calendar.getTimeInMillis());
+		cv.put("open_time", dateTime.getTimeInMillis());
 		cv.put("open_staff_id", staffId);
-		cv.put("sale_date", calendar.getTimeInMillis());
-		cv.put("receipt_year", calendar.get(Calendar.YEAR));
-		cv.put("receipt_month", calendar.get(Calendar.MONTH));
+		cv.put("sale_date", date.getTimeInMillis());
+		cv.put("receipt_year", dateTime.get(Calendar.YEAR));
+		cv.put("receipt_month", dateTime.get(Calendar.MONTH));
 		
 		dbHelper.open();
 		
@@ -75,7 +81,7 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 	public boolean successTransaction(int transactionId, int computerId){
 		boolean isSuccess = false;
 		
-		Calendar calendar = getCalendar();
+		Calendar calendar = getDateTime();
 		int receiptId = getMaxReceiptId(computerId, calendar.get(Calendar.YEAR), 
 				calendar.get(Calendar.MONTH));
 		
@@ -696,8 +702,8 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		
 		dbHelper.open();
 		isSuccess = dbHelper.execSQL("DELETE FROM payment_detail " +
-				" WHERE transactionId=" + transactionId + 
-				" AND computerId=" + computerId);
+				" WHERE transaction_id=" + transactionId + 
+				" AND computer_id=" + computerId);
 		dbHelper.close();
 		
 		return isSuccess;
