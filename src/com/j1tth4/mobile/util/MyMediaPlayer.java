@@ -78,19 +78,19 @@ public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener,
     private void startVideoPlayback() {
 		Log.v(TAG, "startVideoPlayback");
 		
-		float boxWidth = surface.getWidth();
-		float boxHeight = surface.getHeight();
-		float videoWidth = mVideoWidth;
-		float videoHeight = mVideoHeight;
-		
-		float widthRatio = boxWidth / videoWidth;
-		float heightRatio = boxHeight / videoHeight;
-		float aspectRatio = videoWidth / videoHeight;
-
-		if (widthRatio > heightRatio)
-			mVideoWidth = (int) (boxHeight * aspectRatio);
-		else
-			mVideoHeight = (int) (boxWidth / aspectRatio);
+//		float boxWidth = surface.getWidth();
+//		float boxHeight = surface.getHeight();
+//		float videoWidth = mVideoWidth;
+//		float videoHeight = mVideoHeight;
+//		
+//		float widthRatio = boxWidth / videoWidth;
+//		float heightRatio = boxHeight / videoHeight;
+//		float aspectRatio = videoWidth / videoHeight;
+//
+//		if (widthRatio > heightRatio)
+//			mVideoWidth = (int) (boxHeight * aspectRatio);
+//		else
+//			mVideoHeight = (int) (boxWidth / aspectRatio);
 
 		surfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
 		mMediaPlayer.start();
