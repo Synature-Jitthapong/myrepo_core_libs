@@ -9,8 +9,7 @@ public interface Discount {
 	boolean copyOrderToTmp(int transactionId, int computerId);
 
 	boolean discountEatchProduct(int orderDetailId, int transactionId,
-			int computerId, int vatType, float amount, float discount,
-			float salePrice, float totalSalePrice);
+			int computerId, int vatType, float totalPrice, float discount);
 
 	boolean cancelDiscount(int transactionId, int computerId);
 

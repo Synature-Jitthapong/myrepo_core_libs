@@ -18,9 +18,11 @@ public interface Transaction {
 			float transVat, float transExclVat, float serviceCharge,
 			float serviceChargeVat);
 
-	boolean successTransaction(int transactionId, int computerId);
+	boolean successTransaction(int transactionId, int computerId, int staffId);
 
 	boolean holdTransaction(int transactionId, int computerId, String remark);
 
+	boolean prepareTransaction(int transactionId, int computerId);
+	
 	boolean deleteTransaction(int transactionId, int computerId);
 }

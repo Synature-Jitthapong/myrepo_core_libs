@@ -1,7 +1,5 @@
 package com.syn.mpos.model;
 
-import java.util.List;
-
 public class OrderTransaction {
 	private int transactionId;
 	private int computerId;
@@ -27,6 +25,29 @@ public class OrderTransaction {
 	private float transactionVatExclude;
 	private float serviceCharge;
 	private float serviceChargeVat;
+	private String remark;
+	private String staffName;
+
+	
+	public String getStaffName() {
+		return staffName;
+	}
+
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public int getTransactionId() {
+		return transactionId;
+	}
 
 	public void setTransactionId(int transactionId) {
 		this.transactionId = transactionId;

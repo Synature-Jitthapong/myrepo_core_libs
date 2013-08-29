@@ -2,8 +2,6 @@ package com.syn.mpos.db;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
@@ -78,7 +76,7 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 	}
 
 	@Override
-	public boolean successTransaction(int transactionId, int computerId){
+	public boolean successTransaction(int transactionId, int computerId, int staffId){
 		boolean isSuccess = false;
 		
 		Calendar calendar = getDateTime();
@@ -88,7 +86,9 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		String strSql = "UPDATE order_transaction " +
 				" SET transaction_status_id=2, " +
 				" receipt_id=" + receiptId + ", " +
-				" close_time=" + calendar.getTimeInMillis() +
+				" close_time=" + calendar.getTimeInMillis() + ", " +
+				" paid_time=" + calendar.getTimeInMillis() + ", " + 
+				" paid_staff_id=" + staffId +
 				" WHERE transaction_id=" + transactionId + 
 				" AND computer_id=" + computerId;
 		
@@ -157,6 +157,7 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 			String productName, float productAmount, float productPrice) {
 		
 		int orderDetailId = getMaxOrderDetail(transactionId, computerId);
+		float totalProductPrice = productPrice * productAmount;
 		
 		ContentValues cv = new ContentValues();
 		cv.put("order_detail_id", orderDetailId);
@@ -166,15 +167,13 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		cv.put("product_name", productName);
 		cv.put("product_amount", productAmount);
 		cv.put("product_price", productPrice);
-		cv.put("sale_price", productPrice);
-		cv.put("total_product_price", productPrice);
-		cv.put("total_sale_price", productPrice);
+		cv.put("total_product_price", totalProductPrice);
 		cv.put("vat_type", vatType);
 		
 		if(vatType == 1)
-			cv.put("vat", calculateVat(productPrice, productAmount, 7));
+			cv.put("vat", calculateVat(totalProductPrice, 7));
 		else if(vatType == 2)
-			cv.put("vat_exclude", calculateVat(productPrice, productAmount, 7));
+			cv.put("vat_exclude", calculateVat(totalProductPrice, 7));
 		
 		dbHelper.open();
 		if(!dbHelper.insert("order_detail", cv))
@@ -276,10 +275,8 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 				= new ArrayList<OrderTransaction.OrderDetail>();
 		
 		String strSql = "SELECT order_detail_id, product_id, product_name, " +
-				" product_amount, product_price, sale_price, " +
-				" total_product_price AS TotalPrice, " +
-				" total_sale_price AS TotalSalePrice, vat_type, " +
-				" member_discount, each_product_discount " +
+				" product_amount, product_price, total_product_price AS TotalPrice, " +
+				" vat_type, member_discount, each_product_discount " +
 				" FROM order_detail_tmp " +
 				" WHERE transaction_id=" + transactionId + 
 				" AND computer_id=" + computerId;
@@ -295,7 +292,6 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 				orderDetail.setProductName(cursor.getString(cursor.getColumnIndex("product_name")));
 				orderDetail.setProductAmount(cursor.getFloat(cursor.getColumnIndex("product_amount")));
 				orderDetail.setProductPrice(cursor.getFloat(cursor.getColumnIndex("product_price")));
-				orderDetail.setSalePrice(cursor.getFloat(cursor.getColumnIndex("TotalSalePrice")));
 				orderDetail.setTotalPrice(cursor.getFloat(cursor.getColumnIndex("TotalPrice")));
 				orderDetail.setVatType(cursor.getInt(cursor.getColumnIndex("vat_type")));
 				orderDetail.setMemberDiscount(cursor.getFloat(cursor.getColumnIndex("member_discount")));
@@ -316,10 +312,8 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 				= new ArrayList<OrderTransaction.OrderDetail>();
 		
 		String strSql = "SELECT order_detail_id, product_id, product_name, " +
-				" product_amount, product_price, sale_price, " +
-				" total_product_price AS TotalPrice, " +
-				" total_sale_price AS TotalSalePrice, vat_type, " +
-				" member_discount, each_product_discount " +
+				" product_amount, product_price, total_product_price AS TotalPrice, " +
+				" vat_type, member_discount, each_product_discount " +
 				" FROM order_detail " +
 				" WHERE transaction_id=" + transactionId + 
 				" AND computer_id=" + computerId;
@@ -335,7 +329,6 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 				orderDetail.setProductName(cursor.getString(cursor.getColumnIndex("product_name")));
 				orderDetail.setProductAmount(cursor.getFloat(cursor.getColumnIndex("product_amount")));
 				orderDetail.setProductPrice(cursor.getFloat(cursor.getColumnIndex("product_price")));
-				orderDetail.setSalePrice(cursor.getFloat(cursor.getColumnIndex("TotalSalePrice")));
 				orderDetail.setTotalPrice(cursor.getFloat(cursor.getColumnIndex("TotalPrice")));
 				orderDetail.setVatType(cursor.getInt(cursor.getColumnIndex("vat_type")));
 				orderDetail.setMemberDiscount(cursor.getFloat(cursor.getColumnIndex("member_discount")));
@@ -356,7 +349,6 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		
 		String strSql = "SELECT SUM(product_amount) AS TotalAmount," +
 				" SUM(total_product_price) AS TotalPrice, " +
-				" SUM(total_sale_price) AS TotalSalePrice, " +
 				" SUM(vat) AS TotalVat," +
 				" SUM(vat_exclude) AS TotalVatExclude, " +
 				" SUM(service_charge) AS TotalServiceCharge," +
@@ -371,7 +363,6 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		if(cursor.moveToFirst()){			
 			orderDetail.setProductAmount(cursor.getFloat(cursor.getColumnIndex("TotalAmount")));
 			orderDetail.setProductPrice(cursor.getFloat(cursor.getColumnIndex("TotalPrice")));
-			orderDetail.setTotalPrice(cursor.getFloat(cursor.getColumnIndex("TotalSalePrice")));
 			orderDetail.setVat(cursor.getFloat(cursor.getColumnIndex("TotalVat")));
 			orderDetail.setVatExclude(cursor.getFloat(cursor.getColumnIndex("TotalVatExclude")));
 			orderDetail.setServiceCharge(cursor.getFloat(cursor.getColumnIndex("TotalServiceCharge")));
@@ -391,7 +382,6 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		
 		String strSql = "SELECT SUM(product_amount) AS TotalAmount," +
 				" SUM(total_product_price) AS TotalPrice, " +
-				" SUM(total_sale_price) AS TotalSalePrice, " +
 				" SUM(vat) AS TotalVat," +
 				" SUM(vat_exclude) AS TotalVatExclude, " +
 				" SUM(service_charge) AS TotalServiceCharge," +
@@ -406,7 +396,6 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		if(cursor.moveToFirst()){			
 			orderDetail.setProductAmount(cursor.getFloat(cursor.getColumnIndex("TotalAmount")));
 			orderDetail.setProductPrice(cursor.getFloat(cursor.getColumnIndex("TotalPrice")));
-			orderDetail.setTotalPrice(cursor.getFloat(cursor.getColumnIndex("TotalSalePrice")));
 			orderDetail.setVat(cursor.getFloat(cursor.getColumnIndex("TotalVat")));
 			orderDetail.setVatExclude(cursor.getFloat(cursor.getColumnIndex("TotalVatExclude")));
 			orderDetail.setServiceCharge(cursor.getFloat(cursor.getColumnIndex("TotalServiceCharge")));
@@ -500,16 +489,14 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 
 	@Override
 	public boolean discountEatchProduct(int orderDetailId, int transactionId,
-			int computerId, int vatType, float amount, float discount, 
-			float salePrice, float totalSalePrice) {
+			int computerId, int vatType, float totalPrice, float discount) {
 		boolean isSuccess = false;
 		
-		float vat = calculateVat(salePrice, amount, 7);
+		float priceAfterDiscount = totalPrice - discount;
+		float vat = calculateVat(priceAfterDiscount, 7);
 		
 		String strSql = "UPDATE order_detail_tmp SET " +
-				" each_product_discount=" + discount + ", " + 
-				" sale_price=" + salePrice + ", " +
-				" total_sale_price=" + totalSalePrice;
+				" each_product_discount=" + discount;
 		
 		if(vatType == 1)
 			strSql += ", vat=" + vat;
@@ -532,14 +519,12 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 			int orderDetailId, int vatType, float productAmount, float productPrice) {
 		boolean isSucc = false;
 		
-		float vat = calculateVat(productPrice, productAmount, 7);
 		float totalProductPrice = productPrice * productAmount;
+		float vat = calculateVat(totalProductPrice, 7);
 		
 		String strSql = "UPDATE order_detail SET " +
 				" product_amount=" + productAmount + ", " +
 				" product_price=" + productPrice + ", " +
-				" sale_price=" + productPrice + ", " +
-				" total_sale_price=" + totalProductPrice + ", " +
 				" total_product_price=" + totalProductPrice + ", " +
 				" each_product_discount=0";
 		
@@ -704,6 +689,56 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		isSuccess = dbHelper.execSQL("DELETE FROM payment_detail " +
 				" WHERE transaction_id=" + transactionId + 
 				" AND computer_id=" + computerId);
+		dbHelper.close();
+		
+		return isSuccess;
+	}
+
+	public List<OrderTransaction> listHoldOrder(int computerId){
+		List<OrderTransaction> transLst = 
+				new ArrayList<OrderTransaction>();
+		
+		String strSql = "SELECT a.transaction_id, a.computer_id, " +
+				" a.open_time, a.remark, " +
+				" b.staff_code, b.staff_name " +
+				" FROM order_transaction a " +
+				" LEFT JOIN staffs b " +
+				" ON a.open_staff_id=b.staff_id " +
+				" WHERE a.computer_id=" + computerId + 
+				" AND a.transaction_status_id=9";
+		
+		dbHelper.open();
+		
+		Cursor cursor = dbHelper.rawQuery(strSql);
+		if(cursor.moveToFirst()){
+			do{
+				OrderTransaction trans = new OrderTransaction();
+				trans.setTransactionId(cursor.getInt(cursor.getColumnIndex("transaction_id")));
+				trans.setComputerId(cursor.getInt(cursor.getColumnIndex("computer_id")));
+				trans.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
+				trans.setOpenTime(cursor.getLong(cursor.getColumnIndex("open_time")));
+				trans.setStaffName(cursor.getString(cursor.getColumnIndex("staff_code")) + ":" + 
+						cursor.getString(cursor.getColumnIndex("staff_name")));
+				transLst.add(trans);
+			}while(cursor.moveToNext());
+		}
+		cursor.close();
+		dbHelper.close();
+		
+		return transLst;
+	}
+	
+	@Override
+	public boolean prepareTransaction(int transactionId, int computerId) {
+		boolean isSuccess = false;
+		
+		String strSql = "UPDATE order_transaction SET " +
+				" transaction_status_id=1, remark='' " +
+				" WHERE transaction_id=" + transactionId +
+				" AND computer_id=" + computerId;
+		
+		dbHelper.open();
+		isSuccess = dbHelper.execSQL(strSql);
 		dbHelper.close();
 		
 		return isSuccess;

@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
  *
  */
 public abstract class Util {
+	
 	protected Calendar getDate(){
 		Calendar calendar = Calendar.getInstance();
 		return calendar = new GregorianCalendar(calendar.get(Calendar.YEAR), 
@@ -23,8 +24,8 @@ public abstract class Util {
 				calendar.get(Calendar.SECOND));
 	}
 	
-	protected float calculateVat(float productPrice, float productAmount, float vat){
-		float vatAmount = productPrice * productAmount * toVatPercent(vat);
+	protected float calculateVat(float totalPrice, float vatRate){
+		float vatAmount = totalPrice * toVatPercent(vatRate);
 		return vatAmount;
 	}
 	

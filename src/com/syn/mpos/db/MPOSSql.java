@@ -400,11 +400,8 @@ public class MPOSSql {
 			" computer_id  INTEGER NOT NULL DEFAULT 0, " +
 			" product_id  INTEGER NOT NULL DEFAULT 0, " +
 			" product_name  TEXT NOT NULL, " +
-			" sale_mode  INTEGER NOT NULL DEFAULT 1, " +
 			" product_amount  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" product_price  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" sale_price  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" total_sale_price  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" total_product_price  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" vat_type  INTEGER NOT NULL DEFAULT 1, " +
 			" vat  REAL(18,4) NOT NULL DEFAULT 0, " +
@@ -423,11 +420,8 @@ public class MPOSSql {
 			" computer_id  INTEGER NOT NULL DEFAULT 0, " +
 			" product_id  INTEGER NOT NULL DEFAULT 0, " +
 			" product_name  TEXT NOT NULL, " +
-			" sale_mode  INTEGER NOT NULL DEFAULT 1, " +
 			" product_amount  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" product_price  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" sale_price  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" total_sale_price  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" total_product_price  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" vat_type  INTEGER NOT NULL DEFAULT 1, " +
 			" vat  REAL(18,4) NOT NULL DEFAULT 0, " +
