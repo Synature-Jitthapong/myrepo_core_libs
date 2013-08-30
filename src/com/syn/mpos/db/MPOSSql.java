@@ -1,6 +1,20 @@
 package com.syn.mpos.db;
 
 public class MPOSSql {
+	public static final String TB_CONN_SETTING = 
+			" CREATE TABLE conn_setting( " +
+			" ip_address TEXT, " +
+			" virtual_dir TEXT, " +
+			" service_name TEXT, " +
+			" full_url TEXT" +
+			" );";
+	
+	public static final String TB_SYNC = 
+			" CREATE TABLE sync(" +
+			" sync_time INTEGER, " +
+			" sync_status INTEGER " +
+			" );";
+	
 	public static final String TB_SHOP = 
 			" CREATE TABLE shop_property ( " +
 			" shop_id  INTEGER, " +

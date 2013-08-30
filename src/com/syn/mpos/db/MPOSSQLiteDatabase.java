@@ -14,6 +14,8 @@ public class MPOSSQLiteDatabase extends SQLiteOpenHelper{
 	private static final int DB_VER = 1;
 	
 	private final String[] sqlCreate = {
+		MPOSSql.TB_CONN_SETTING,
+		MPOSSql.TB_SYNC,
 		MPOSSql.TB_BANK,
 		MPOSSql.TB_COM_PRO,
 		MPOSSql.TB_COMP,
