@@ -245,78 +245,56 @@ public class OrderTransaction {
 		private int productId;
 		private String productName;
 		private int saleMode;
-		private float productAmount;
-		private float productPrice;
-		private float salePrice;
-		private float totalPrice;
+		private float qty;
+		private float pricePerUnit;
+		private float totalRetailPrice;
+		private float totalSalePrice;
+		private float priceDiscount;
 		private float memberDiscount;
-		private float eachProductDiscount;
 		private int vatType;
-		private float vat;
-		private float vatExclude;
-		private float serviceCharge;
-		private float serviceChargeVat;
 
-		public float getTotalPrice() {
-			return totalPrice;
+		public float getQty() {
+			return qty;
 		}
-
-		public void setTotalPrice(float totalPrice) {
-			this.totalPrice = totalPrice;
+		public void setQty(float qty) {
+			this.qty = qty;
 		}
-
-		public float getSalePrice() {
-			return salePrice;
+		public float getPricePerUnit() {
+			return pricePerUnit;
 		}
-
-		public void setSalePrice(float salePrice) {
-			this.salePrice = salePrice;
+		public void setPricePerUnit(float pricePerUnit) {
+			this.pricePerUnit = pricePerUnit;
 		}
-
+		public float getTotalRetailPrice() {
+			return totalRetailPrice;
+		}
+		public void setTotalRetailPrice(float totalRetailPrice) {
+			this.totalRetailPrice = totalRetailPrice;
+		}
+		public float getTotalSalePrice() {
+			return totalSalePrice;
+		}
+		public void setTotalSalePrice(float totalSalePrice) {
+			this.totalSalePrice = totalSalePrice;
+		}
+		public float getPriceDiscount() {
+			return priceDiscount;
+		}
+		public void setPriceDiscount(float priceDiscount) {
+			this.priceDiscount = priceDiscount;
+		}
+		public float getMemberDiscount() {
+			return memberDiscount;
+		}
+		public void setMemberDiscount(float memberDiscount) {
+			this.memberDiscount = memberDiscount;
+		}
 		public int getVatType() {
 			return vatType;
 		}
-
 		public void setVatType(int vatType) {
 			this.vatType = vatType;
 		}
-
-		public float getVat() {
-			return vat;
-		}
-
-		public void setVat(float vat) {
-			this.vat = vat;
-		}
-
-		public float getVatExclude() {
-			return vatExclude;
-		}
-
-		public void setVatExclude(float vatExclude) {
-			this.vatExclude = vatExclude;
-		}
-
-		public float getServiceCharge() {
-			return serviceCharge;
-		}
-
-		public void setServiceCharge(float serviceCharge) {
-			this.serviceCharge = serviceCharge;
-		}
-		
-		public float getServiceChargeVat() {
-			return serviceChargeVat;
-		}
-
-		public void setServiceChargeVat(float serviceChargeVat) {
-			this.serviceChargeVat = serviceChargeVat;
-		}
-
-		public float getProductAmount() {
-			return productAmount;
-		}
-
 		public int getOrderDetailId() {
 			return orderDetailId;
 		}
@@ -328,39 +306,9 @@ public class OrderTransaction {
 		public int getTransactionId() {
 			return transactionId;
 		}
-
 		public void setTransactionId(int transactionId) {
 			this.transactionId = transactionId;
 		}
-
-		public float getProductPrice() {
-			return productPrice;
-		}
-
-		public void setProductPrice(float productPrice) {
-			this.productPrice = productPrice;
-		}
-
-		public float getMemberDiscount() {
-			return memberDiscount;
-		}
-
-		public void setMemberDiscount(float memberDiscount) {
-			this.memberDiscount = memberDiscount;
-		}
-
-		public float getEachProductDiscount() {
-			return eachProductDiscount;
-		}
-
-		public void setEachProductDiscount(float eachProductDiscount) {
-			this.eachProductDiscount = eachProductDiscount;
-		}
-
-		public void setProductAmount(float productAmount) {
-			this.productAmount = productAmount;
-		}
-
 		public int getComputerId() {
 			return computerId;
 		}

@@ -14,10 +14,6 @@ public interface Transaction {
 
 	int openTransaction(int computerId, int shopId, int sessionId, int staffId);
 
-	boolean updateTransaction(int transactionId, int computerId, int staffId,
-			float transVat, float transExclVat, float serviceCharge,
-			float serviceChargeVat);
-
 	boolean successTransaction(int transactionId, int computerId, int staffId);
 
 	boolean holdTransaction(int transactionId, int computerId, String remark);

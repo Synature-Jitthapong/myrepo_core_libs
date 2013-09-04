@@ -4,7 +4,14 @@ public class Setting {
 	public static class Sync{
 		private long syncTime;
 		private int syncStatus;
+		private boolean syncWhenLogin;
 		
+		public boolean isSyncWhenLogin() {
+			return syncWhenLogin;
+		}
+		public void setSyncWhenLogin(boolean syncWhenLogin) {
+			this.syncWhenLogin = syncWhenLogin;
+		}
 		public long getSyncTime() {
 			return syncTime;
 		}
@@ -20,11 +27,18 @@ public class Setting {
 	}
 	
 	public static class ConnectionSetting{
+		private String httpProto = "http://";
 		private String ipAddress;
 		private String virtualDir;
-		private String serviceName;
+		private String serviceName = "ws_mpos.asmx";
 		private String fullUrl;
 		
+		public String getHttpProto() {
+			return httpProto;
+		}
+		public void setHttpProto(String httpProto) {
+			this.httpProto = httpProto;
+		}
 		public String getIpAddress() {
 			return ipAddress;
 		}

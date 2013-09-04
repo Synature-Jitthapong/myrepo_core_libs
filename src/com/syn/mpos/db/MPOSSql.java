@@ -1,20 +1,6 @@
 package com.syn.mpos.db;
 
 public class MPOSSql {
-	public static final String TB_CONN_SETTING = 
-			" CREATE TABLE conn_setting( " +
-			" ip_address TEXT, " +
-			" virtual_dir TEXT, " +
-			" service_name TEXT, " +
-			" full_url TEXT" +
-			" );";
-	
-	public static final String TB_SYNC = 
-			" CREATE TABLE sync(" +
-			" sync_time INTEGER, " +
-			" sync_status INTEGER " +
-			" );";
-	
 	public static final String TB_SHOP = 
 			" CREATE TABLE shop_property ( " +
 			" shop_id  INTEGER, " +
@@ -401,9 +387,11 @@ public class MPOSSql {
 			" member_id  INTEGER NOT NULL DEFAULT 0, " +
 			" transaction_vat  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" transaction_exclude_vat  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" transaction_vatable  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" service_charge  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" service_charge_vat  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" remark  TEXT, " +
+			" transaction_note  TEXT, " +
 			" PRIMARY KEY (transaction_id ASC, computer_id ASC) " +
 			" );";
 
@@ -413,17 +401,15 @@ public class MPOSSql {
 			" transaction_id  INTEGER NOT NULL DEFAULT 0, " +
 			" computer_id  INTEGER NOT NULL DEFAULT 0, " +
 			" product_id  INTEGER NOT NULL DEFAULT 0, " +
+			" product_type_id  INTEGER NOT NULL DEFAULT 0, " +
 			" product_name  TEXT NOT NULL, " +
-			" product_amount  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" product_price  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" total_product_price  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" qty  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" price_per_unit  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" total_retail_price  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" total_sale_price  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" vat_type  INTEGER NOT NULL DEFAULT 1, " +
-			" vat  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" vat_exclude  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" service_charge  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" service_charge_vat  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" member_discount  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" each_product_discount  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" price_discount  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" PRIMARY KEY (order_detail_id ASC, transaction_id ASC, computer_id ASC) " +
 			" );";
 	
@@ -433,17 +419,15 @@ public class MPOSSql {
 			" transaction_id  INTEGER NOT NULL DEFAULT 0, " +
 			" computer_id  INTEGER NOT NULL DEFAULT 0, " +
 			" product_id  INTEGER NOT NULL DEFAULT 0, " +
+			" product_type_id  INTEGER NOT NULL DEFAULT 0, " +
 			" product_name  TEXT NOT NULL, " +
-			" product_amount  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" product_price  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" total_product_price  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" qty  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" price_per_unit  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" total_retail_price  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" total_sale_price  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" vat_type  INTEGER NOT NULL DEFAULT 1, " +
-			" vat  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" vat_exclude  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" service_charge  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" service_charge_vat  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" member_discount  REAL(18,4) NOT NULL DEFAULT 0, " +
-			" each_product_discount  REAL(18,4) NOT NULL DEFAULT 0, " +
+			" price_discount  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" PRIMARY KEY (order_detail_id ASC, transaction_id ASC, computer_id ASC) " +
 			" );";
 	

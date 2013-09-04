@@ -1,13 +1,16 @@
 package com.j1tth4.mobile.util;
 
 import java.security.MessageDigest;
+import java.util.Locale;
 
-public class EncryptSHA1 {
-	public static String encryptSHA1(String passText) {
+public class EncryptSHA1 implements Encryption {
+
+	@Override
+	public String sha1(String text) {
 		StringBuffer sb = new StringBuffer();
 		try {
 			MessageDigest messageDigest = MessageDigest.getInstance("SHA1");
-			messageDigest.update(passText.getBytes("UTF-8"));
+			messageDigest.update(text.getBytes("UTF-8"));
 			byte[] digestBytes = messageDigest.digest();
 
 			String hex = null;
@@ -21,6 +24,6 @@ public class EncryptSHA1 {
 			ex.printStackTrace();
 		}
 		String pass = sb.toString();
-		return pass.toUpperCase();
+		return pass.toUpperCase(Locale.US);
 	}
 }
