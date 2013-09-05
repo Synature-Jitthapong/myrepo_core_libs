@@ -21,6 +21,7 @@ public class OrderTransaction {
 	private String voidReason;
 	private long voidTime;
 	private int memberId;
+	private float transactionVatable;
 	private float transactionVat;
 	private float transactionVatExclude;
 	private float serviceCharge;
@@ -28,7 +29,14 @@ public class OrderTransaction {
 	private String remark;
 	private String staffName;
 
-	
+	public float getTransactionVatable() {
+		return transactionVatable;
+	}
+
+	public void setTransactionVatable(float transactionVatable) {
+		this.transactionVatable = transactionVatable;
+	}
+
 	public String getStaffName() {
 		return staffName;
 	}
@@ -252,7 +260,14 @@ public class OrderTransaction {
 		private float priceDiscount;
 		private float memberDiscount;
 		private int vatType;
+		private float vat;
 
+		public float getVat() {
+			return vat;
+		}
+		public void setVat(float vat) {
+			this.vat = vat;
+		}
 		public float getQty() {
 			return qty;
 		}

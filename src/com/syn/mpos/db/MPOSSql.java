@@ -408,6 +408,7 @@ public class MPOSSql {
 			" total_retail_price  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" total_sale_price  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" vat_type  INTEGER NOT NULL DEFAULT 1, " +
+			" vat  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" member_discount  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" price_discount  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" PRIMARY KEY (order_detail_id ASC, transaction_id ASC, computer_id ASC) " +
@@ -426,6 +427,7 @@ public class MPOSSql {
 			" total_retail_price  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" total_sale_price  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" vat_type  INTEGER NOT NULL DEFAULT 1, " +
+			" vat  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" member_discount  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" price_discount  REAL(18,4) NOT NULL DEFAULT 0, " +
 			" PRIMARY KEY (order_detail_id ASC, transaction_id ASC, computer_id ASC) " +
