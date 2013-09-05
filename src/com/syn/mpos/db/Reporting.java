@@ -27,11 +27,14 @@ public class Reporting {
 		Report report = new Report();
 		
 		String strSql = " SELECT a.sale_date, " +
-				" SUM(a.transaction_id) AS totalBill, " +
-				" SUM(b.total_product_price) AS totalProductPrice, " +
-				" SUM(b.vat) AS totalVat, " +
-				" SUM(b.service_charge) AS totalServiceCharge, " +
-				" SUM(b.each_product_discount + b.member_discount) AS totalDiscount " +
+				" SUM(a.service_charge) AS totalServiceCharge, " +
+				" SUM(a.transaction_vatable) AS transVatable, " +
+				" SUM(a.transaction_vat) AS transVat, " +
+				" SUM(a.transaction_exclude_vat) AS transExcludeVat, " +
+				" COUNT(a.transaction_id) AS totalBill, " +
+				" SUM(b.total_retail_price) AS totalPrice, " +
+				" SUM(b.total_sale_price) AS subTotal, " +
+				" SUM(b.price_discount + b.member_discount) AS totalDiscount " +
 				" FROM order_transaction a " +
 				" LEFT JOIN order_detail b " +
 				" ON a.transaction_id=b.transaction_id " +
@@ -51,12 +54,13 @@ public class Reporting {
 				
 				reportDetail.setSaleDate(cursor.getLong(cursor.getColumnIndex("sale_date")));
 				reportDetail.setTotalBill(cursor.getInt(cursor.getColumnIndex("totalBill")));
-				reportDetail.setTotalPrice(cursor.getFloat(cursor.getColumnIndex("totalProductPrice")));
-				reportDetail.setDiscount(cursor.getFloat(cursor.getColumnIndex("totalDiscount")));
-				reportDetail.setSubTotal(reportDetail.getTotalPrice() - reportDetail.getDiscount());
+				reportDetail.setTotalPrice(cursor.getFloat(cursor.getColumnIndex("totalPrice")));
+				reportDetail.setSubTotal(cursor.getFloat(cursor.getColumnIndex("subTotal")));
 				reportDetail.setServiceCharge(cursor.getFloat(cursor.getColumnIndex("totalServiceCharge")));
-				reportDetail.setVatable(cursor.getFloat(cursor.getColumnIndex("totalVat")));
-				reportDetail.setTotalVat(cursor.getFloat(cursor.getColumnIndex("totalVat")));
+				reportDetail.setTotalSale(reportDetail.getSubTotal() + reportDetail.getServiceCharge());
+				reportDetail.setDiscount(cursor.getFloat(cursor.getColumnIndex("totalDiscount")));
+				reportDetail.setVatable(cursor.getFloat(cursor.getColumnIndex("transVatable")));
+				reportDetail.setTotalVat(cursor.getFloat(cursor.getColumnIndex("transVat")));
 				reportDetail.setCash(0);
 				reportDetail.setTotalPayment(0);
 				reportDetail.setDiff(0);
@@ -92,10 +96,12 @@ public class Reporting {
 				report.setProductDeptName(cursor1.getString(cursor1.getColumnIndex("menu_dept_name_0")));
 			
 				strSql = " SELECT d.product_code, b.product_name, " +
-						" b.product_price, " +
-						" SUM(b.product_amount) AS totalAmount, " +
-						" SUM(b.total_product_price) AS totalProductPrice, " +
-						" SUM(b.each_product_discount + b.member_discount) AS totalDiscount " +
+						" b.price_per_unit, " +
+						" SUM(b.qty) AS totalQty, " +
+						" SUM(b.total_retail_price) AS totalPrice, " +
+						" SUM(b.total_sale_price) AS subTotal, " +
+						" SUM(b.price_discount + b.member_discount) AS totalDiscount, " +
+						" d.vat_type " +
 						" FROM order_transaction a " +
 						" LEFT JOIN order_detail b " +
 						" ON a.transaction_id=b.transaction_id " +
@@ -118,11 +124,12 @@ public class Reporting {
 								new Report.ReportDetail();
 						reportDetail.setProductCode(cursor2.getString(cursor2.getColumnIndex("product_code")));
 						reportDetail.setProductName(cursor2.getString(cursor2.getColumnIndex("product_name")));
-						reportDetail.setProductPrice(cursor2.getFloat(cursor2.getColumnIndex("product_price")));
-						reportDetail.setProductAmount(cursor2.getFloat(cursor2.getColumnIndex("totalAmount")));
-						reportDetail.setSubTotal(cursor2.getFloat(cursor2.getColumnIndex("totalProductPrice")));
+						reportDetail.setPricePerUnit(cursor2.getFloat(cursor2.getColumnIndex("price_per_unit")));
+						reportDetail.setQty(cursor2.getFloat(cursor2.getColumnIndex("totalQty")));
+						reportDetail.setTotalPrice(cursor2.getFloat(cursor2.getColumnIndex("totalPrice")));
 						reportDetail.setDiscount(cursor2.getFloat(cursor2.getColumnIndex("totalDiscount")));
-						reportDetail.setTotalPrice(reportDetail.getSubTotal() - reportDetail.getDiscount());
+						reportDetail.setSubTotal(cursor2.getFloat(cursor2.getColumnIndex("subTotal")));
+						reportDetail.setVat(cursor2.getString(cursor2.getColumnIndex("vat_type")));
 						
 						report.reportDetail.add(reportDetail);
 					}while(cursor2.moveToNext());

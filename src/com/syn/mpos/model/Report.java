@@ -47,24 +47,60 @@ public class Report {
 		private int productId;
 		private String productCode;
 		private String productName;
-		private float productPrice;
-		private float productAmount;
-		private float productAmountPercent;
-		private float subTotal;
+		private float pricePerUnit;
+		private float qty;
+		private float qtyPercent;
 		private float discount;
 		private float totalPrice;
+		private float subTotal;
+		private float totalSale;
 		private float totalPricePercent;
 		private String vat;
 		private long saleDate;
 		private int totalBill;
 		private float serviceCharge;
-		private float totalSale;
 		private float vatable;
 		private float totalVat;
 		private float cash;
 		private float totalPayment;
 		private float diff;
 		
+		public float getPricePerUnit() {
+			return pricePerUnit;
+		}
+		public void setPricePerUnit(float pricePerUnit) {
+			this.pricePerUnit = pricePerUnit;
+		}
+		public float getQty() {
+			return qty;
+		}
+		public void setQty(float qty) {
+			this.qty = qty;
+		}
+		public float getQtyPercent() {
+			return qtyPercent;
+		}
+		public void setQtyPercent(float qtyPercent) {
+			this.qtyPercent = qtyPercent;
+		}
+		public float getTotalPrice() {
+			return totalPrice;
+		}
+		public void setTotalPrice(float totalPrice) {
+			this.totalPrice = totalPrice;
+		}
+		public float getSubTotal() {
+			return subTotal;
+		}
+		public void setSubTotal(float subTotal) {
+			this.subTotal = subTotal;
+		}
+		public float getTotalSale() {
+			return totalSale;
+		}
+		public void setTotalSale(float totalSale) {
+			this.totalSale = totalSale;
+		}
 		public float getTotalVat() {
 			return totalVat;
 		}
@@ -89,41 +125,11 @@ public class Report {
 		public void setProductName(String productName) {
 			this.productName = productName;
 		}
-		public float getProductPrice() {
-			return productPrice;
-		}
-		public void setProductPrice(float productPrice) {
-			this.productPrice = productPrice;
-		}
-		public float getProductAmount() {
-			return productAmount;
-		}
-		public void setProductAmount(float productAmount) {
-			this.productAmount = productAmount;
-		}
-		public float getProductAmountPercent() {
-			return productAmountPercent;
-		}
-		public void setProductAmountPercent(float productAmountPercent) {
-			this.productAmountPercent = productAmountPercent;
-		}
-		public float getSubTotal() {
-			return subTotal;
-		}
-		public void setSubTotal(float subTotal) {
-			this.subTotal = subTotal;
-		}
 		public float getDiscount() {
 			return discount;
 		}
 		public void setDiscount(float discount) {
 			this.discount = discount;
-		}
-		public float getTotalPrice() {
-			return totalPrice;
-		}
-		public void setTotalPrice(float totalPrice) {
-			this.totalPrice = totalPrice;
 		}
 		public float getTotalPricePercent() {
 			return totalPricePercent;
@@ -154,12 +160,6 @@ public class Report {
 		}
 		public void setServiceCharge(float serviceCharge) {
 			this.serviceCharge = serviceCharge;
-		}
-		public float getTotalSale() {
-			return totalSale;
-		}
-		public void setTotalSale(float totalSale) {
-			this.totalSale = totalSale;
 		}
 		public float getVatable() {
 			return vatable;
