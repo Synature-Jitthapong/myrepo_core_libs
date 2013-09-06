@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Report {
+	private int productGroupId;
+	private int productDeptId;
 	private String productGroupCode;
 	private String productGroupName;
 	private String productDeptCode;
@@ -11,6 +13,22 @@ public class Report {
 	public List<ReportDetail> reportDetail = 
 			new ArrayList<ReportDetail>();
 	
+	public int getProductGroupId() {
+		return productGroupId;
+	}
+
+	public void setProductGroupId(int productGroupId) {
+		this.productGroupId = productGroupId;
+	}
+
+	public int getProductDeptId() {
+		return productDeptId;
+	}
+
+	public void setProductDeptId(int productDeptId) {
+		this.productDeptId = productDeptId;
+	}
+
 	public String getProductGroupCode() {
 		return productGroupCode;
 	}
@@ -56,8 +74,7 @@ public class Report {
 		private float totalSale;
 		private float totalPricePercent;
 		private String vat;
-		private long saleDate;
-		private int totalBill;
+		private String receiptNo;
 		private float serviceCharge;
 		private float vatable;
 		private float totalVat;
@@ -65,6 +82,12 @@ public class Report {
 		private float totalPayment;
 		private float diff;
 		
+		public String getReceiptNo() {
+			return receiptNo;
+		}
+		public void setReceiptNo(String receiptNo) {
+			this.receiptNo = receiptNo;
+		}
 		public float getPricePerUnit() {
 			return pricePerUnit;
 		}
@@ -142,18 +165,6 @@ public class Report {
 		}
 		public void setVat(String vat) {
 			this.vat = vat;
-		}
-		public long getSaleDate() {
-			return saleDate;
-		}
-		public void setSaleDate(long saleDate) {
-			this.saleDate = saleDate;
-		}
-		public int getTotalBill() {
-			return totalBill;
-		}
-		public void setTotalBill(int totalBill) {
-			this.totalBill = totalBill;
 		}
 		public float getServiceCharge() {
 			return serviceCharge;

@@ -1,6 +1,18 @@
 package com.syn.mpos.model;
 
 public class Setting {
+	private String menuImageUrl;
+	public Sync sync = new Sync();
+	public Connection conn = new Connection();
+	
+	public String getMenuImageUrl() {
+		return menuImageUrl;
+	}
+
+	public void setMenuImageUrl(String menuImageUrl) {
+		this.menuImageUrl = menuImageUrl;
+	}
+
 	public static class Sync{
 		private long syncTime;
 		private int syncStatus;
@@ -26,7 +38,7 @@ public class Setting {
 		}
 	}
 	
-	public static class ConnectionSetting{
+	public static class Connection{
 		private String httpProto = "http://";
 		private String ipAddress;
 		private String virtualDir;
