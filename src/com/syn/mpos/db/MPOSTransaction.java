@@ -742,4 +742,27 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		dbHelper.close();
 		return isSuccess;
 	}
+	
+	public OrderTransaction getTransaction(int transactionId, int computerId){
+		OrderTransaction trans = new OrderTransaction();
+		
+		String strSql = "SELECT * FROM order_transaction " +
+				" WHERE transaction_id=" + transactionId +
+				" AND computer_id=" + computerId;
+		
+		dbHelper.open();
+		Cursor cursor = dbHelper.rawQuery(strSql);
+		if(cursor.moveToFirst()){
+			trans.setTransactionVatable(cursor.getFloat(cursor.getColumnIndex("transaction_vatable")));
+			trans.setTransactionVat(cursor.getFloat(cursor.getColumnIndex("transaction_vat")));
+			trans.setTransactionVatExclude(cursor.getFloat(cursor.getColumnIndex("transaction_exclude_vat")));
+			trans.setSaleDate(cursor.getLong(cursor.getColumnIndex("sale_date")));
+			trans.setReceiptYear(cursor.getInt(cursor.getColumnIndex("receipt_year")));
+			trans.setReceiptMonth(cursor.getInt(cursor.getColumnIndex("receipt_month")));
+			trans.setReceiptId(cursor.getInt(cursor.getColumnIndex("receipt_id")));
+		}
+		cursor.close();
+		dbHelper.close();
+		return trans;
+	}
 }
