@@ -496,14 +496,14 @@ public class MPOSSql {
 			" document_id  INTEGER NOT NULL, " +
 			" shop_id  INTEGER NOT NULL, " +
 			" document_type_id  INTEGER NOT NULL, " +
-			" document_no  TEXT NOT NULL, " +
-			" document_date  TEXT NOT NULL, " +
+			" document_no  TEXT, " +
+			" document_date, " +
 			" update_by  INTEGER NOT NULL, " +
 			" update_date  TEXT NOT NULL, " +
 			" document_status  INTEGER NOT NULL, " +
 			" remark  TEXT, " +
-			" is_send_to_hq  INTEGER NOT NULL, " +
-			" send_to_hq_datetime  TEXT NOT NULL, " +
+			" is_send_to_hq  INTEGER DEFAULT 0, " +
+			" send_to_hq_datetime  TEXT, " +
 			" PRIMARY KEY (document_id, shop_id) " +
 			" );";
 
@@ -512,13 +512,13 @@ public class MPOSSql {
 			" docdetail_id  INTEGER NOT NULL, " +
 			" document_id  INTEGER NOT NULL, " +
 			" shop_id  INTEGER NOT NULL, " +
-			" product_id  INTEGER NOT NULL, " +
+			" material_id  INTEGER NOT NULL, " +
 			" unit_name  TEXT NOT NULL, " +
-			" product_qty  REAL(18,4) NOT NULL, " +
-			" product_price  REAL(18,4) NOT NULL, " +
-			" product_net_price  REAL(18,4) NOT NULL, " +
-			" product_tax_type  INTEGER NOT NULL, " +
-			" product_tax_price  REAL(18,4) NOT NULL, " +
+			" material_qty  REAL(18,4) DEFAULT 0, " +
+			" material_price_per_unit  REAL(18,4) DEFAULT 0, " +
+			" material_net_price  REAL(18,4) DEFAULT 0, " +
+			" material_tax_type  INTEGER DEFAULT 1, " +
+			" material_tax_price  REAL(18,4) DEFAULT 0, " +
 			" PRIMARY KEY (docdetail_id ASC, document_id ASC, shop_id ASC) " +
 			" );";
 }

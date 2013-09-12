@@ -1,29 +1,28 @@
 package com.syn.mpos.db;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.j1tth4.mobile.sqlite.SQLiteHelper;
 import com.syn.mpos.model.OrderTransaction;
-import com.syn.mpos.model.OrderTransaction.OrderDetail;
+import com.syn.pos.Transaction;
 
 /**
  * 
  * @author j1tth4
  *
  */
-public class MPOSTransaction extends Util implements Transaction, Order, Payment{
+public class MPOSTransaction extends Util implements Transaction{
 	
-	private MPOSSQLiteHelper dbHelper;
+	private SQLiteHelper mDbHelper;
 	
-	public MPOSTransaction (Context c){
-		dbHelper = new MPOSSQLiteHelper(c);
+	public MPOSTransaction(Context context) {
+		mDbHelper = new MPOSSQLiteHelper(context);
 	}
-	
+
 	@Override
 	public int getMaxTransaction(int computerId) {
 		int transactionId = 0;
@@ -31,14 +30,14 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		String strSql = "SELECT MAX(transaction_id) FROM order_transaction " +
 				" WHERE computer_id=" + computerId;
 		
-		dbHelper.open();
-		Cursor cursor = dbHelper.rawQuery(strSql);
+		mDbHelper.open();
+		Cursor cursor = mDbHelper.rawQuery(strSql);
 		if(cursor.moveToFirst()){
 			transactionId = cursor.getInt(0);
 			cursor.moveToNext();
 		}
 		cursor.close();
-		dbHelper.close();
+		mDbHelper.close();
 		
 		return transactionId + 1;
 	}
@@ -66,12 +65,12 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 		cv.put("receipt_year", dateTime.get(Calendar.YEAR));
 		cv.put("receipt_month", dateTime.get(Calendar.MONTH));
 		
-		dbHelper.open();
+		mDbHelper.open();
 		
-		if(!dbHelper.insert("order_transaction", cv))
+		if(!mDbHelper.insert("order_transaction", cv))
 			transactionId = 0;
 		
-		dbHelper.close();
+		mDbHelper.close();
 		
 		return transactionId;
 	}
@@ -93,114 +92,20 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 				" WHERE transaction_id=" + transactionId + 
 				" AND computer_id=" + computerId;
 		
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL(strSql);
-		dbHelper.close();
+		mDbHelper.open();
+		isSuccess = mDbHelper.execSQL(strSql);
+		mDbHelper.close();
 		return isSuccess;
 	}
 	
 	@Override
 	public boolean deleteTransaction(int transactionId, int computerId){
 		boolean isSuccess = false;
-		dbHelper.open();
-		dbHelper.execSQL("DELETE FROM order_transaction " +
+		mDbHelper.open();
+		mDbHelper.execSQL("DELETE FROM order_transaction " +
 				" WHERE transaction_id=" + transactionId + 
 				" AND computer_id=" + computerId);
-		dbHelper.close();
-		return isSuccess;
-	}
-	
-	public void cancelTransaction(int transactionId, int computerId) {
-		deleteTransaction(transactionId, computerId);
-		deleteAllOrderDetail(transactionId, computerId);
-		deleteAllPaymentDetail(transactionId, computerId);
-	}
-
-	@Override
-	public int getMaxOrderDetail(int transactionId, int computerId) {
-		int orderDetailId = 0;
-		
-		String strSql = "SELECT MAX(order_detail_id) FROM order_detail";
-		
-		dbHelper.open();
-		Cursor cursor = dbHelper.rawQuery(strSql);
-		if(cursor.moveToFirst()){
-			orderDetailId = cursor.getInt(0);
-			cursor.moveToNext();
-		}
-		cursor.close();
-		dbHelper.close();
-		
-		return orderDetailId + 1;
-	}
-
-	@Override
-	public int addOrderDetail(int transactionId, int computerId,
-			int productId, int productType, int vatType,
-			String productName, float qty, float pricePerUnit) {
-		
-		int orderDetailId = getMaxOrderDetail(transactionId, computerId);
-		float totalRetailPrice = pricePerUnit * qty;
-		float vat = vatType == 2 ? calculateVat(totalRetailPrice, 7) : 0.0f;
-		
-		ContentValues cv = new ContentValues();
-		cv.put("order_detail_id", orderDetailId);
-		cv.put("transaction_id", transactionId);
-		cv.put("computer_id", computerId);
-		cv.put("product_id", productId);
-		cv.put("product_name", productName);
-		cv.put("qty", qty);
-		cv.put("price_per_unit", pricePerUnit);
-		cv.put("total_retail_price", totalRetailPrice);
-		cv.put("total_sale_price", totalRetailPrice);
-		cv.put("vat_type", vatType);
-		cv.put("vat", vat);
-		
-		dbHelper.open();
-		if(!dbHelper.insert("order_detail", cv))
-			orderDetailId = 0;
-		dbHelper.close();
-		
-		return orderDetailId;
-	}
-
-	public boolean updateOrderDetail(int transactionId, int computerId,
-			int orderDetailId, int vatType, float qty, float pricePerUnit) {
-		boolean isSucc = false;
-		
-		float totalRetailPrice = pricePerUnit * qty;
-		float vat = vatType == 2 ? calculateVat(totalRetailPrice, 7) : 0.0f;
-		
-		String strSql = "UPDATE order_detail SET " +
-				" qty=" + qty + ", " +
-				" price_per_unit=" + pricePerUnit + ", " +
-				" total_retail_price=" + totalRetailPrice + ", " +
-				" total_sale_price=" + totalRetailPrice + ", " +
-				" vat=" + vat + ", " +
-				" price_discount=0 " +
-				" WHERE transaction_id=" + transactionId +
-				" AND order_detail_id=" + orderDetailId + 
-				" AND computer_id=" + computerId;
-		
-		dbHelper.open();
-		isSucc = dbHelper.execSQL(strSql);
-		dbHelper.close();
-		return isSucc;
-	}
-
-	@Override
-	public boolean deleteOrderDetail(int transactionId, int computerId, int orderDetailId) {
-		boolean isSuccess = false;
-		
-		String strSql = "DELETE FROM order_detail " +
-				" WHERE order_detail_id=" + orderDetailId + 
-				" AND transaction_id=" + transactionId +
-				" AND computer_id=" + computerId;
-		
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL(strSql);
-		dbHelper.close();
-		
+		mDbHelper.close();
 		return isSuccess;
 	}
 
@@ -214,14 +119,14 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 				" AND receipt_month=" + month + 
 				" AND transaction_status_id = 2";
 		
-		dbHelper.open();
-		Cursor cursor = dbHelper.rawQuery(strSql);
+		mDbHelper.open();
+		Cursor cursor = mDbHelper.rawQuery(strSql);
 		if(cursor.moveToFirst()){
 			maxReceiptId = cursor.getInt(0);
 			cursor.moveToNext();
 		}
 		cursor.close();
-		dbHelper.close();
+		mDbHelper.close();
 		
 		return maxReceiptId + 1;
 	}
@@ -234,466 +139,16 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 				" WHERE computer_id = " + computerId + 
 				" AND transaction_status_id = 1";
 		
-		dbHelper.open();
-		Cursor cursor = dbHelper.rawQuery(strSql);
+		mDbHelper.open();
+		Cursor cursor = mDbHelper.rawQuery(strSql);
 		if(cursor.moveToFirst()){
 			if(cursor.getLong(0) != 0)
 				transactionId = cursor.getInt(0);
 			cursor.moveToNext();
 		}
 		cursor.close();
-		dbHelper.close();
+		mDbHelper.close();
 		return transactionId;
-	}
-	
-	public OrderTransaction.OrderDetail getOrder(int transactionId, int computerId, int orderDetailId){
-		OrderTransaction.OrderDetail orderDetail = 
-				new OrderTransaction.OrderDetail();
-		
-		String strSql = "SELECT order_detail_id, " +
-				" product_id, product_name, qty, price_per_unit, " +
-				" vat_type, member_discount, price_discount " +
-				" FROM order_detail " +
-				" WHERE transaction_id=" + transactionId + 
-				" AND computer_id=" + computerId + 
-				" AND order_detail_id=" + orderDetailId;
-		
-		dbHelper.open();
-		Cursor cursor = dbHelper.rawQuery(strSql);
-		if(cursor.moveToFirst()){
-			orderDetail.setOrderDetailId(cursor.getInt(cursor.getColumnIndex("order_detail_id")));
-			orderDetail.setProductId(cursor.getInt(cursor.getColumnIndex("product_id")));
-			orderDetail.setProductName(cursor.getString(cursor.getColumnIndex("product_name")));
-			orderDetail.setQty(cursor.getFloat(cursor.getColumnIndex("qty")));
-			orderDetail.setPricePerUnit(cursor.getFloat(cursor.getColumnIndex("price_per_unit")));
-			orderDetail.setVatType(cursor.getInt(cursor.getColumnIndex("vat_type")));
-			orderDetail.setMemberDiscount(cursor.getFloat(cursor.getColumnIndex("member_discount")));
-			orderDetail.setPriceDiscount(cursor.getFloat(cursor.getColumnIndex("price_discount")));
-		}
-		cursor.close();
-		dbHelper.close();
-		return orderDetail;
-	}
-	
-	public List<OrderTransaction.OrderDetail> listAllOrdersTmp(int transactionId, int computerId){
-		List<OrderTransaction.OrderDetail> orderDetailLst 
-				= new ArrayList<OrderTransaction.OrderDetail>();
-		
-		String strSql = "SELECT order_detail_id, product_id, product_name, " +
-				" qty, price_per_unit, total_retail_price, total_sale_price, " +
-				" vat_type, member_discount, price_discount " +
-				" FROM order_detail_tmp " +
-				" WHERE transaction_id=" + transactionId + 
-				" AND computer_id=" + computerId;
-		
-		dbHelper.open();
-		Cursor cursor = dbHelper.rawQuery(strSql);
-		if(cursor.moveToFirst()){
-			do{
-				OrderTransaction.OrderDetail orderDetail = 
-						new OrderTransaction.OrderDetail();
-				orderDetail.setOrderDetailId(cursor.getInt(cursor.getColumnIndex("order_detail_id")));
-				orderDetail.setProductId(cursor.getInt(cursor.getColumnIndex("product_id")));
-				orderDetail.setProductName(cursor.getString(cursor.getColumnIndex("product_name")));
-				orderDetail.setQty(cursor.getFloat(cursor.getColumnIndex("qty")));
-				orderDetail.setPricePerUnit(cursor.getFloat(cursor.getColumnIndex("price_per_unit")));
-				orderDetail.setTotalRetailPrice(cursor.getFloat(cursor.getColumnIndex("total_retail_price")));
-				orderDetail.setTotalSalePrice(cursor.getFloat(cursor.getColumnIndex("total_sale_price")));
-				orderDetail.setVatType(cursor.getInt(cursor.getColumnIndex("vat_type")));
-				orderDetail.setMemberDiscount(cursor.getFloat(cursor.getColumnIndex("member_discount")));
-				orderDetail.setPriceDiscount(cursor.getFloat(cursor.getColumnIndex("price_discount")));
-				
-				orderDetailLst.add(orderDetail);
-			}while(cursor.moveToNext());
-		}
-		cursor.close();
-		dbHelper.close();
-		
-		return orderDetailLst;
-	}
-
-	
-	public List<OrderTransaction.OrderDetail> listAllOrders(int transactionId, int computerId){
-		List<OrderTransaction.OrderDetail> orderDetailLst 
-				= new ArrayList<OrderTransaction.OrderDetail>();
-		
-		String strSql = "SELECT order_detail_id, product_id, product_name, " +
-				" qty, price_per_unit, total_retail_price, total_sale_price, " +
-				" vat_type, member_discount, price_discount " +
-				" FROM order_detail " +
-				" WHERE transaction_id=" + transactionId + 
-				" AND computer_id=" + computerId;
-		
-		dbHelper.open();
-		Cursor cursor = dbHelper.rawQuery(strSql);
-		if(cursor.moveToFirst()){
-			do{
-				OrderTransaction.OrderDetail orderDetail = 
-						new OrderTransaction.OrderDetail();
-				orderDetail.setOrderDetailId(cursor.getInt(cursor.getColumnIndex("order_detail_id")));
-				orderDetail.setProductId(cursor.getInt(cursor.getColumnIndex("product_id")));
-				orderDetail.setProductName(cursor.getString(cursor.getColumnIndex("product_name")));
-				orderDetail.setQty(cursor.getFloat(cursor.getColumnIndex("qty")));
-				orderDetail.setPricePerUnit(cursor.getFloat(cursor.getColumnIndex("price_per_unit")));
-				orderDetail.setTotalRetailPrice(cursor.getFloat(cursor.getColumnIndex("total_retail_price")));
-				orderDetail.setTotalSalePrice(cursor.getFloat(cursor.getColumnIndex("total_sale_price")));
-				orderDetail.setVatType(cursor.getInt(cursor.getColumnIndex("vat_type")));
-				orderDetail.setMemberDiscount(cursor.getFloat(cursor.getColumnIndex("member_discount")));
-				orderDetail.setPriceDiscount(cursor.getFloat(cursor.getColumnIndex("price_discount")));
-				
-				orderDetailLst.add(orderDetail);
-			}while(cursor.moveToNext());
-		}
-		cursor.close();
-		dbHelper.close();
-		
-		return orderDetailLst;
-	}
-
-	public OrderTransaction.OrderDetail getSummaryTmp(int transactionId, int computerId) {
-		OrderTransaction.OrderDetail orderDetail = 
-					new OrderTransaction.OrderDetail();
-
-		String strSql = "SELECT SUM(qty) AS TotalQty," +
-				" SUM(total_retail_price) AS SubTotal, " +
-				" SUM(total_sale_price) AS TotalPrice, " +
-				" SUM(vat) AS TotalVat, " +
-				" SUM(price_discount) AS TotalPriceDiscount," +
-				" SUM(member_discount) AS TotalMemberDiscount "+
-				" FROM order_detail_tmp " +
-				" WHERE transaction_id=" + transactionId + 
-				" AND computer_id=" + computerId;
-		
-		dbHelper.open();
-		Cursor cursor = dbHelper.rawQuery(strSql);
-		if(cursor.moveToFirst()){			
-			orderDetail.setQty(cursor.getFloat(cursor.getColumnIndex("TotalQty")));
-			orderDetail.setTotalRetailPrice(cursor.getFloat(cursor.getColumnIndex("SubTotal")));
-			orderDetail.setTotalSalePrice(cursor.getFloat(cursor.getColumnIndex("TotalPrice")));
-			orderDetail.setVat(cursor.getFloat(cursor.getColumnIndex("TotalVat")));
-			orderDetail.setPriceDiscount(cursor.getFloat(cursor.getColumnIndex("TotalPriceDiscount")));
-			orderDetail.setMemberDiscount(cursor.getFloat(cursor.getColumnIndex("TotalMemberDiscount")));
-			cursor.moveToNext();
-		}
-		cursor.close();
-		dbHelper.close();
-		return orderDetail;
-	}
-	
-	public OrderTransaction.OrderDetail getSummary(int transactionId, int computerId) {
-		OrderTransaction.OrderDetail orderDetail = 
-					new OrderTransaction.OrderDetail();
-
-		String strSql = "SELECT SUM(qty) AS TotalQty," +
-				" SUM(total_retail_price) AS SubTotal, " +
-				" SUM(total_sale_price) AS TotalPrice, " +
-				" SUM(vat) AS TotalVat, " +
-				" SUM(price_discount) AS TotalPriceDiscount," +
-				" SUM(member_discount) AS TotalMemberDiscount "+
-				" FROM order_detail " +
-				" WHERE transaction_id=" + transactionId + 
-				" AND computer_id=" + computerId;
-		
-		dbHelper.open();
-		Cursor cursor = dbHelper.rawQuery(strSql);
-		if(cursor.moveToFirst()){			
-			orderDetail.setQty(cursor.getFloat(cursor.getColumnIndex("TotalQty")));
-			orderDetail.setTotalRetailPrice(cursor.getFloat(cursor.getColumnIndex("SubTotal")));
-			orderDetail.setTotalSalePrice(cursor.getFloat(cursor.getColumnIndex("TotalPrice")));
-			orderDetail.setVat(cursor.getFloat(cursor.getColumnIndex("TotalVat")));
-			orderDetail.setPriceDiscount(cursor.getFloat(cursor.getColumnIndex("TotalPriceDiscount")));
-			orderDetail.setMemberDiscount(cursor.getFloat(cursor.getColumnIndex("TotalMemberDiscount")));
-			cursor.moveToNext();
-		}
-		cursor.close();
-		dbHelper.close();
-		return orderDetail;
-	}
-
-	@Override
-	public boolean deleteAllOrderDetail(int transactionId, int computerId) {
-		boolean isSuccess = false;
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL("DELETE FROM order_detail " +
-				" WHERE transaction_id=" + transactionId + 
-				" AND computer_id=" + computerId);
-		dbHelper.close();
-		return isSuccess;
-	}
-
-	private boolean deleteOrderDetail(int transactionId, int computerId){
-		boolean isSuccess = false;
-		
-		String strSql = "DELETE FROM order_detail " +
-				" WHERE transaction_id=" + transactionId + 
-				" AND computer_id=" + computerId;
-		
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL(strSql);
-		dbHelper.close();
-		
-		return isSuccess;
-	}
-	
-	private boolean deleteOrderDetailTmp(int transactionId, int computerId){
-		boolean isSuccess = false;
-		
-		String strSql = "DELETE FROM order_detail_tmp " +
-				" WHERE transaction_id=" + transactionId + 
-				" AND computer_id=" + computerId;
-		
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL(strSql);
-		dbHelper.close();
-		
-		return isSuccess;
-	}
-	
-	@Override
-	public boolean cancelDiscount(int transactionId, int computerId) {
-		return deleteOrderDetailTmp(transactionId, computerId);
-	}
-
-	@Override
-	public boolean confirmDiscount(int transactionId, int computerId) {
-		boolean isSuccess = false;
-		
-		if(deleteOrderDetail(transactionId, computerId)){
-			String strSql = "INSERT INTO order_detail " +
-					" SELECT * FROM order_detail_tmp " +
-					" WHERE transaction_id=" + transactionId + 
-					" AND computer_id=" + computerId;
-			
-			dbHelper.open();
-			isSuccess = dbHelper.execSQL(strSql);
-			dbHelper.close();
-		}
-		return isSuccess;
-	}
-
-	@Override
-	public boolean copyOrderToTmp(int transactionId, int computerId) {
-		boolean isSuccess = false;
-		
-		if(deleteOrderDetailTmp(transactionId, computerId)){
-			String strSql = "INSERT INTO order_detail_tmp " +
-					" SELECT * FROM order_detail " +
-					" WHERE transaction_id=" + transactionId + 
-					" AND computer_id=" + computerId;
-			
-			dbHelper.open();
-			isSuccess = dbHelper.execSQL(strSql);
-			dbHelper.close();
-		}
-		return isSuccess;
-	}
-
-	@Override
-	public boolean discountEatchProduct(int orderDetailId, int transactionId,
-			int computerId, int vatType, float totalPrice, float discount) {
-		boolean isSuccess = false;
-		
-		float priceAfterDiscount = totalPrice - discount;
-		float vat = vatType == 2 ? calculateVat(priceAfterDiscount, 7) : 0.0f;
-		
-		String strSql = "UPDATE order_detail_tmp SET " +
-				" price_discount=" + discount + ", " +
-				" total_sale_price=" + priceAfterDiscount + ", " +
-				" vat=" + vat + 
-				" WHERE order_detail_id=" + orderDetailId + 
-				" AND transaction_id=" + transactionId + 
-				" AND computer_id=" + computerId;
-
-		dbHelper.open();		
-		isSuccess = dbHelper.execSQL(strSql);
-		dbHelper.close();
-		
-		return isSuccess;
-	}
-
-	@Override
-	public int getMaxPaymentDetailId(int transactionId, int computerId) {
-		int maxPaymentId = 0;
-		dbHelper.open();
-		
-		String strSql = "SELECT MAX(pay_detail_id) " +
-				" FROM payment_detail " +
-				" WHERE transaction_id=" + transactionId +
-				" AND computer_id=" + computerId;
-		
-		Cursor cursor = dbHelper.rawQuery(strSql);
-		
-		if(cursor.moveToFirst()){
-			maxPaymentId = cursor.getInt(0);
-		}
-		cursor.close();
-		
-		dbHelper.close();
-		return maxPaymentId + 1;
-	}
-
-	@Override
-	public boolean addPaymentDetail(int transactionId,
-			int computerId, int payTypeId, float payAmount,
-			String creditCardNo, int expireMonth, 
-			int expireYear, int bankId,int creditCardTypeId) {
-		boolean isSuccess = false;
-		int paymentId = getMaxPaymentDetailId(transactionId, computerId);
-		
-		ContentValues cv = new ContentValues();
-		cv.put("pay_detail_id", paymentId);
-		cv.put("transaction_id", transactionId);
-		cv.put("computer_id", computerId);
-		cv.put("pay_type_id", payTypeId);
-		cv.put("pay_amount", payAmount);
-		cv.put("credit_card_no", creditCardNo);
-		cv.put("expire_month", expireMonth);
-		cv.put("expire_year", expireYear);
-		cv.put("bank_id", bankId);
-		cv.put("credit_card_type", creditCardTypeId);
-		
-		dbHelper.open();
-		isSuccess = dbHelper.insert("payment_detail", cv);
-		dbHelper.close();
-		return isSuccess;
-	}
-
-	@Override
-	public boolean updatePaymentDetail(int transactionId, int computerId, int payTypeId,
-			float paymentAmount, String creditCardNo, int expireMonth,
-			int expireYear, int bankId, int creditCardTypeId) {
-		boolean isSuccess = false;
-		
-		String strSql = "UPDATE payment_detail SET " +
-				" pay_type_id=" + payTypeId + ", " +
-				" pay_amount=" + paymentAmount + ", " +
-				" credit_card_no='" + creditCardNo + "', " +
-				" expire_month=" + expireMonth + ", " +
-				" expire_year=" + expireYear + ", " +
-				" bank_id='" + bankId + "', " + 
-				" credit_card_type=" + creditCardTypeId +
-				" WHERE transaction_id=" + transactionId +
-				" AND computer_id=" + computerId;
-		
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL(strSql);
-		dbHelper.close();
-		return isSuccess;
-	}
-
-	@Override
-	public boolean deletePaymentDetail(int paymentId) {
-		String strSql = "DELETE FROM payment_detail " +
-				" WHERE pay_detail_id=" + paymentId;
-		
-		boolean isSuccess = false;
-		
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL(strSql);
-		dbHelper.close();
-		
-		return isSuccess;
-	}
-
-	public float getTotalPaid(int transactionId, int computerId){
-		float totalPaid = 0.0f;
-	
-		String strSql = "SELECT SUM(pay_amount) " +
-				" FROM payment_detail " +
-				" WHERE transaction_id=" + transactionId +
-				" AND computer_id=" + computerId;
-		
-		dbHelper.open();
-		
-		Cursor cursor = dbHelper.rawQuery(strSql);
-		if(cursor.moveToFirst()){
-			totalPaid = cursor.getFloat(0);
-		}
-		cursor.close();
-				
-		dbHelper.close();
-		
-		return totalPaid;
-	}
-	
-	public List<com.syn.mpos.model.Payment.PaymentDetail> listPayment(int transactionId, int computerId){
-		List<com.syn.mpos.model.Payment.PaymentDetail> paymentLst = 
-				new ArrayList<com.syn.mpos.model.Payment.PaymentDetail>();
-		
-		String strSql = "SELECT a.*, b.pay_type_code, b.pay_type_name " +
-				" FROM payment_detail a " +
-				" LEFT JOIN pay_type b " + 
-				" ON a.pay_type_id=b.pay_type_id " +
-				" WHERE a.transaction_id=" + transactionId +
-				" AND a.computer_id=" + computerId;
-		
-		dbHelper.open();
-		
-		Cursor cursor = dbHelper.rawQuery(strSql);
-		if(cursor.moveToFirst()){
-			do{
-				com.syn.mpos.model.Payment.PaymentDetail payDetail
-					= new com.syn.mpos.model.Payment.PaymentDetail();
-				payDetail.setPaymentDetailID(cursor.getInt(cursor.getColumnIndex("pay_detail_id")));
-				payDetail.setPayTypeID(cursor.getInt(cursor.getColumnIndex("pay_type_id")));
-				payDetail.setPayTypeCode(cursor.getString(cursor.getColumnIndex("pay_type_code")));
-				payDetail.setPayTypeName(cursor.getString(cursor.getColumnIndex("pay_type_name")));
-				payDetail.setPayAmount(cursor.getFloat(cursor.getColumnIndex("pay_amount")));
-				payDetail.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
-				paymentLst.add(payDetail);
-			}while(cursor.moveToNext());
-		}
-		cursor.close();
-		dbHelper.close();
-		
-		return paymentLst;
-	}
-
-	@Override
-	public boolean deleteAllPaymentDetail(int transactionId, int computerId) {
-		boolean isSuccess = false;
-		
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL("DELETE FROM payment_detail " +
-				" WHERE transaction_id=" + transactionId + 
-				" AND computer_id=" + computerId);
-		dbHelper.close();
-		
-		return isSuccess;
-	}
-
-	public List<OrderTransaction> listHoldOrder(int computerId){
-		List<OrderTransaction> transLst = 
-				new ArrayList<OrderTransaction>();
-		
-		String strSql = "SELECT a.transaction_id, a.computer_id, " +
-				" a.open_time, a.remark, " +
-				" b.staff_code, b.staff_name " +
-				" FROM order_transaction a " +
-				" LEFT JOIN staffs b " +
-				" ON a.open_staff_id=b.staff_id " +
-				" WHERE a.computer_id=" + computerId + 
-				" AND a.transaction_status_id=9";
-		
-		dbHelper.open();
-		
-		Cursor cursor = dbHelper.rawQuery(strSql);
-		if(cursor.moveToFirst()){
-			do{
-				OrderTransaction trans = new OrderTransaction();
-				trans.setTransactionId(cursor.getInt(cursor.getColumnIndex("transaction_id")));
-				trans.setComputerId(cursor.getInt(cursor.getColumnIndex("computer_id")));
-				trans.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
-				trans.setOpenTime(cursor.getLong(cursor.getColumnIndex("open_time")));
-				trans.setStaffName(cursor.getString(cursor.getColumnIndex("staff_code")) + ":" + 
-						cursor.getString(cursor.getColumnIndex("staff_name")));
-				transLst.add(trans);
-			}while(cursor.moveToNext());
-		}
-		cursor.close();
-		dbHelper.close();
-		
-		return transLst;
 	}
 	
 	@Override
@@ -705,9 +160,9 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 				" WHERE transaction_id=" + transactionId +
 				" AND computer_id=" + computerId;
 		
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL(strSql);
-		dbHelper.close();
+		mDbHelper.open();
+		isSuccess = mDbHelper.execSQL(strSql);
+		mDbHelper.close();
 		
 		return isSuccess;
 	}
@@ -716,15 +171,16 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 	public boolean holdTransaction(int transactionId, int computerId, String remark) {
 		boolean isSuccess = false;
 		
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL("UPDATE order_transaction SET transaction_status_id = 9, " +
+		mDbHelper.open();
+		isSuccess = mDbHelper.execSQL("UPDATE order_transaction SET transaction_status_id = 9, " +
 				" remark='" + remark + "' " +
 				" WHERE transaction_id=" + transactionId + 
 				" AND computer_id=" + computerId);
-		dbHelper.close();
+		mDbHelper.close();
 		return isSuccess;
 	}
 	
+	@Override
 	public boolean updateTransactionVat(int transactionId, int computerId, 
 			float totalSalePrice, float vatExclude) {
 		boolean isSuccess = false;
@@ -737,12 +193,13 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 				" WHERE transaction_id=" + transactionId +
 				" AND computer_id=" + computerId;
 		
-		dbHelper.open();
-		isSuccess = dbHelper.execSQL(strSql);
-		dbHelper.close();
+		mDbHelper.open();
+		isSuccess = mDbHelper.execSQL(strSql);
+		mDbHelper.close();
 		return isSuccess;
 	}
 	
+	@Override
 	public OrderTransaction getTransaction(int transactionId, int computerId){
 		OrderTransaction trans = new OrderTransaction();
 		
@@ -750,8 +207,8 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 				" WHERE transaction_id=" + transactionId +
 				" AND computer_id=" + computerId;
 		
-		dbHelper.open();
-		Cursor cursor = dbHelper.rawQuery(strSql);
+		mDbHelper.open();
+		Cursor cursor = mDbHelper.rawQuery(strSql);
 		if(cursor.moveToFirst()){
 			trans.setTransactionVatable(cursor.getFloat(cursor.getColumnIndex("transaction_vatable")));
 			trans.setTransactionVat(cursor.getFloat(cursor.getColumnIndex("transaction_vat")));
@@ -762,7 +219,7 @@ public class MPOSTransaction extends Util implements Transaction, Order, Payment
 			trans.setReceiptId(cursor.getInt(cursor.getColumnIndex("receipt_id")));
 		}
 		cursor.close();
-		dbHelper.close();
+		mDbHelper.close();
 		return trans;
 	}
 }

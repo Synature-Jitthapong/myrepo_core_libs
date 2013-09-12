@@ -20,7 +20,7 @@ public abstract class DotNetWebServiceTask extends AsyncTask<String, String, Str
 	protected SoapObject soapRequest;
 	protected SoapSerializationEnvelope envelope;
 	protected HttpTransportSE androidHttpTransport;
-	protected int timeout = 60000;
+	protected int timeout = 30000;
 	protected String webMethod;
 	protected Context context;
 	protected PropertyInfo property;
@@ -44,6 +44,8 @@ public abstract class DotNetWebServiceTask extends AsyncTask<String, String, Str
 		String soapAction = nameSpace + webMethod;
 		try {
 			androidHttpTransport.call(soapAction, envelope);
+			androidHttpTransport.getServiceConnection().disconnect();
+			
 			try {
 				result = envelope.getResponse().toString();
 			} catch (SoapFault e) {

@@ -4,7 +4,6 @@ import com.j1tth4.mobile.sqlite.SQLiteHelper;
 import com.j1tth4.mobile.util.EncryptSHA1;
 import com.j1tth4.mobile.util.Encryption;
 import com.syn.mpos.model.ShopData;
-import com.syn.mpos.model.ShopData.Staff;
 
 import android.content.Context;
 import android.database.Cursor;
