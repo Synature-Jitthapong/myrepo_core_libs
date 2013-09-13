@@ -65,6 +65,17 @@ public class MPOSSQLiteDatabase extends SQLiteOpenHelper{
 		for(String strSql : sqlCreate){
 			db.execSQL(strSql);
 		}
+		
+		/**
+		 * testing
+		 */
+		for(String strSql : MPOSSql.BANK_SQL){
+			db.execSQL(strSql);
+		}
+
+		for(String strSql : MPOSSql.CARD_SQL){
+			db.execSQL(strSql);
+		}
 	}
 
 	@Override

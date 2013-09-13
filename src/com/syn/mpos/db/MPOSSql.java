@@ -521,4 +521,40 @@ public class MPOSSql {
 			" material_tax_price  REAL(18,4) DEFAULT 0, " +
 			" PRIMARY KEY (docdetail_id ASC, document_id ASC, shop_id ASC) " +
 			" );";
+	
+	/**
+	 * Script additional data for testing
+	 */
+	public static final String[] BANK_SQL = {
+		" INSERT INTO `bank_name` VALUES (1, 'กรุงเทพฯ'); ",
+		" INSERT INTO `bank_name` VALUES (2, 'กสิกรไทย'); ",
+		" INSERT INTO `bank_name` VALUES (3, 'ทหารไทย'); ",
+		" INSERT INTO `bank_name` VALUES (4, 'กรุงไทย'); ",
+		" INSERT INTO `bank_name` VALUES (5, 'ไทยพาณิชย์'); ",
+		" INSERT INTO `bank_name` VALUES (6, 'UOB'); ",
+		" INSERT INTO `bank_name` VALUES (7, 'ซิตี้แบงค์'); ",
+		" INSERT INTO `bank_name` VALUES (8, 'กรุงศรีอยุธยา'); ",
+		" INSERT INTO `bank_name` VALUES (9, 'นครหลวงไทย'); ",
+		" INSERT INTO `bank_name` VALUES (10, 'Standard Charter'); ",
+		" INSERT INTO `bank_name` VALUES (11, 'HSBC'); ",
+		" INSERT INTO `bank_name` VALUES (12, 'ออมสิน'); ",
+		" INSERT INTO `bank_name` VALUES (13, 'อิออน'); ",
+		" INSERT INTO `bank_name` VALUES (14, 'AIG'); ",
+		" INSERT INTO `bank_name` VALUES (15, 'GE Money'); ",
+		" INSERT INTO `bank_name` VALUES (16, 'แคปปิตอล โอเค'); ",
+		" INSERT INTO `bank_name` VALUES (17, 'BMB'); ",
+		" INSERT INTO `bank_name` VALUES (18, 'ASA'); ",
+		" INSERT INTO `bank_name` VALUES (19, 'PSCL'); ",
+		" INSERT INTO `bank_name` VALUES (20, 'อื่น ๆ'); ",
+		" INSERT INTO `bank_name` VALUES (21, 'TDB'); "
+	};
+	public static final String[] CARD_SQL = {
+		" INSERT INTO `creditcard_type` VALUES (1, 'VISA'); ",
+		" INSERT INTO `creditcard_type` VALUES (2, 'Master'); ",
+		" INSERT INTO `creditcard_type` VALUES (3, 'AMEX'); ",
+		" INSERT INTO `creditcard_type` VALUES (4, 'DINERS'); ",
+		" INSERT INTO `creditcard_type` VALUES (5, 'JCB'); ",
+		" INSERT INTO `creditcard_type` VALUES (6, 'VS-GOLD'); ",
+		" INSERT INTO `creditcard_type` VALUES (7, 'MC-GOLD');"
+	};
 }
