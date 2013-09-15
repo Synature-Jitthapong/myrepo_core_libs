@@ -24,7 +24,7 @@ public interface DocumentDetail {
 	
 	boolean deleteDocumentDetail(int docDetailId, int documentId, int shopId);
 	
-	com.syn.mpos.model.Document.DocDetail getDocDetail(int docDetailId, int documentId, int shopId);
+	com.syn.pos.inventory.Document.DocDetail getDocDetail(int docDetailId, int documentId, int shopId);
 	
-	List<com.syn.mpos.model.Document.DocDetail> listAllDocDetail(int documentId, int shopId);
+	List<com.syn.pos.inventory.Document.DocDetail> listAllDocDetail(int documentId, int shopId);
 }

@@ -8,8 +8,8 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.j1tth4.mobile.sqlite.SQLiteHelper;
-import com.syn.mpos.model.Document.DocDetail;
 import com.syn.pos.DocumentDetail;
+import com.syn.pos.inventory.Document.DocDetail;
 
 public class MPOSDocDetail extends Util implements DocumentDetail {
 	

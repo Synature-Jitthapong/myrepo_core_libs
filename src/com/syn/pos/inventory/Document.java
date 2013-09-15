@@ -1,4 +1,4 @@
-package com.syn.mpos.model;
+package com.syn.pos.inventory;
 
 /**
  * 
