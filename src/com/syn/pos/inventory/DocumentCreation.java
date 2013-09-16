@@ -6,7 +6,7 @@ public interface DocumentCreation {
 	int getMaxDocumentNo(int documentId, int shopId, int documentMonth,
 			int documentYear, int documentTypeId);
 
-	boolean createDocument(int shopId, int documentTypeId, int staffId);
+	int createDocument(int shopId, int documentTypeId, int staffId);
 	
 	boolean saveDocument(int documentId, int shopId, int staffId, String remark);
 	

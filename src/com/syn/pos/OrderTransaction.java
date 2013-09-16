@@ -28,6 +28,15 @@ public class OrderTransaction {
 	private float serviceChargeVat;
 	private String remark;
 	private String staffName;
+	private String receiptNo;
+
+	public String getReceiptNo() {
+		return receiptNo;
+	}
+
+	public void setReceiptNo(String receiptNo) {
+		this.receiptNo = receiptNo;
+	}
 
 	public float getTransactionVatable() {
 		return transactionVatable;
