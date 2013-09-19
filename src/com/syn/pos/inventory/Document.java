@@ -98,11 +98,11 @@ public class Document{
 		private int shopId;
 		private int materialId;
 		private String unitName;
-		private double materialQty;
-		private double materialPricePerUnit;
-		private double materialNetPrice;
+		private float materialQty;
+		private float materialPricePerUnit;
+		private float materialNetPrice;
 		private int materialTaxType;
-		private double materialTaxPrice;
+		private float materialTaxPrice;
 		
 		public int getDocDetailId() {
 			return docDetailId;
@@ -134,22 +134,22 @@ public class Document{
 		public void setUnitName(String unitName) {
 			this.unitName = unitName;
 		}
-		public double getMaterialQty() {
+		public float getMaterialQty() {
 			return materialQty;
 		}
-		public void setMaterialQty(double materialQty) {
+		public void setMaterialQty(float materialQty) {
 			this.materialQty = materialQty;
 		}
-		public double getMaterialPricePerUnit() {
+		public float getMaterialPricePerUnit() {
 			return materialPricePerUnit;
 		}
-		public void setMaterialPricePerUnit(double materialPricePerUnit) {
+		public void setMaterialPricePerUnit(float materialPricePerUnit) {
 			this.materialPricePerUnit = materialPricePerUnit;
 		}
-		public double getMaterialNetPrice() {
+		public float getMaterialNetPrice() {
 			return materialNetPrice;
 		}
-		public void setMaterialNetPrice(double materialNetPrice) {
+		public void setMaterialNetPrice(float materialNetPrice) {
 			this.materialNetPrice = materialNetPrice;
 		}
 		public int getMaterialTaxType() {
@@ -158,10 +158,10 @@ public class Document{
 		public void setMaterialTaxType(int materialTaxType) {
 			this.materialTaxType = materialTaxType;
 		}
-		public double getMaterialTaxPrice() {
+		public float getMaterialTaxPrice() {
 			return materialTaxPrice;
 		}
-		public void setMaterialTaxPrice(double materialTaxPrice) {
+		public void setMaterialTaxPrice(float materialTaxPrice) {
 			this.materialTaxPrice = materialTaxPrice;
 		}
 	}
