@@ -7,6 +7,33 @@ public class QueueDisplayInfo {
 	private String szCurQueueGroupA;
 	private String szCurQueueGroupB;
 	private String szCurQueueGroupC;
+	private String szCurQueueCustomerA;
+	private String szCurQueueCustomerB;
+	private String szCurQueueCustomerC;
+
+	public String getSzCurQueueCustomerA() {
+		return szCurQueueCustomerA;
+	}
+
+	public void setSzCurQueueCustomerA(String szCurQueueCustomerA) {
+		this.szCurQueueCustomerA = szCurQueueCustomerA;
+	}
+
+	public String getSzCurQueueCustomerB() {
+		return szCurQueueCustomerB;
+	}
+
+	public void setSzCurQueueCustomerB(String szCurQueueCustomerB) {
+		this.szCurQueueCustomerB = szCurQueueCustomerB;
+	}
+
+	public String getSzCurQueueCustomerC() {
+		return szCurQueueCustomerC;
+	}
+
+	public void setSzCurQueueCustomerC(String szCurQueueCustomerC) {
+		this.szCurQueueCustomerC = szCurQueueCustomerC;
+	}
 
 	public String getSzCurQueueGroupA() {
 		return szCurQueueGroupA;

@@ -23,4 +23,10 @@ public class Province {
 	public void setLangId(int langId) {
 		this.langId = langId;
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.provinceName;
+	}
 }
