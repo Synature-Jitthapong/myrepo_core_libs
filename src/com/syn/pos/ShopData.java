@@ -6,6 +6,7 @@ public class ShopData {
 	public List<ShopProperty> ShopProperty;
 	public List<ComputerProperty> ComputerProperty;
 	public List<Staff> Staffs;
+	public List<StaffPermission> StaffPermission;
 	public List<GlobalProperty> GlobalProperty;
 	public List<Language> Language;
 	public List<ProgramFeature> ProgramFeature;
