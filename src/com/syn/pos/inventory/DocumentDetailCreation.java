@@ -20,13 +20,13 @@ public interface DocumentDetailCreation {
 	 * @param shopId
 	 * @param materialId
 	 * @param materialQty
-	 * @param materialCountQty
+	 * @param materialBalance
 	 * @param materialPrice
 	 * @param unitName
 	 * @return
 	 */
 	int addDocumentDetail(int documentId, int shopId, float materialId,
-			float materialQty, float materialCountQty, float materialPrice, String unitName);
+			float materialQty, float materialBalance, float materialPrice, String unitName);
 
 	/**
 	 * 
@@ -34,14 +34,14 @@ public interface DocumentDetailCreation {
 	 * @param shopId
 	 * @param materialId
 	 * @param materialQty
-	 * @param materialCountQty
+	 * @param materialBalance
 	 * @param materialPrice
 	 * @param taxType
 	 * @param unitName
 	 * @return
 	 */
 	int addDocumentDetail(int documentId, int shopId, float materialId,
-			float materialQty, float materialCountQty, float materialPrice, int taxType, String unitName);
+			float materialQty, float materialBalance, float materialPrice, int taxType, String unitName);
 
 	/**
 	 * 

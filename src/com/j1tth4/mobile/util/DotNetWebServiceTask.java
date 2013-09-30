@@ -53,7 +53,7 @@ public abstract class DotNetWebServiceTask extends AsyncTask<String, String, Str
 				e.printStackTrace();
 			}
 		} catch (IOException e) {
-			result = "Network error";
+			result = e.getMessage();
 			e.printStackTrace();
 		} catch (XmlPullParserException e) {
 			result = e.getMessage();
