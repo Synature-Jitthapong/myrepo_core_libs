@@ -270,7 +270,14 @@ public class OrderTransaction {
 		private float memberDiscount;
 		private int vatType;
 		private float vat;
+		private int discountType;	// 1 price, 2 percent
 
+		public int getDiscountType() {
+			return discountType;
+		}
+		public void setDiscountType(int discountType) {
+			this.discountType = discountType;
+		}
 		public float getVat() {
 			return vat;
 		}
