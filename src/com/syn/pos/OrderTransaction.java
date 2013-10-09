@@ -271,7 +271,14 @@ public class OrderTransaction {
 		private int vatType;
 		private float vat;
 		private int discountType;	// 1 price, 2 percent
+		private boolean isChecked;
 
+		public boolean isChecked() {
+			return isChecked;
+		}
+		public void setChecked(boolean isChecked) {
+			this.isChecked = isChecked;
+		}
 		public int getDiscountType() {
 			return discountType;
 		}
