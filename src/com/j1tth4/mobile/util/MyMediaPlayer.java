@@ -178,8 +178,7 @@ public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener,
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
