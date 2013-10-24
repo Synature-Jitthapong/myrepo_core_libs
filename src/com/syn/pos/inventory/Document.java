@@ -96,13 +96,13 @@ public class Document{
 		private int docDetailId;
 		private int documentId;
 		private int shopId;
-		private int materialId;
+		private int productId;
 		private String unitName;
-		private float materialQty;
-		private float materialPricePerUnit;
-		private float materialNetPrice;
-		private int materialTaxType;
-		private float materialTaxPrice;
+		private float productQty;
+		private float productUnitPrice;
+		private float productNetPrice;
+		private int productTaxType;
+		private float productTaxPrice;
 		
 		public int getDocDetailId() {
 			return docDetailId;
@@ -122,11 +122,11 @@ public class Document{
 		public void setShopId(int shopId) {
 			this.shopId = shopId;
 		}
-		public int getMaterialId() {
-			return materialId;
+		public int getProductId() {
+			return productId;
 		}
-		public void setMaterialId(int materialId) {
-			this.materialId = materialId;
+		public void setProductId(int productId) {
+			this.productId = productId;
 		}
 		public String getUnitName() {
 			return unitName;
@@ -134,35 +134,35 @@ public class Document{
 		public void setUnitName(String unitName) {
 			this.unitName = unitName;
 		}
-		public float getMaterialQty() {
-			return materialQty;
+		public float getProductQty() {
+			return productQty;
 		}
-		public void setMaterialQty(float materialQty) {
-			this.materialQty = materialQty;
+		public void setProductQty(float productQty) {
+			this.productQty = productQty;
 		}
-		public float getMaterialPricePerUnit() {
-			return materialPricePerUnit;
+		public float getProductUnitPrice() {
+			return productUnitPrice;
 		}
-		public void setMaterialPricePerUnit(float materialPricePerUnit) {
-			this.materialPricePerUnit = materialPricePerUnit;
+		public void setProductUnitPrice(float productUnitPrice) {
+			this.productUnitPrice = productUnitPrice;
 		}
-		public float getMaterialNetPrice() {
-			return materialNetPrice;
+		public float getProductNetPrice() {
+			return productNetPrice;
 		}
-		public void setMaterialNetPrice(float materialNetPrice) {
-			this.materialNetPrice = materialNetPrice;
+		public void setProductNetPrice(float productNetPrice) {
+			this.productNetPrice = productNetPrice;
 		}
-		public int getMaterialTaxType() {
-			return materialTaxType;
+		public int getProductTaxType() {
+			return productTaxType;
 		}
-		public void setMaterialTaxType(int materialTaxType) {
-			this.materialTaxType = materialTaxType;
+		public void setProductTaxType(int productTaxType) {
+			this.productTaxType = productTaxType;
 		}
-		public float getMaterialTaxPrice() {
-			return materialTaxPrice;
+		public float getProductTaxPrice() {
+			return productTaxPrice;
 		}
-		public void setMaterialTaxPrice(float materialTaxPrice) {
-			this.materialTaxPrice = materialTaxPrice;
+		public void setProductTaxPrice(float productTaxPrice) {
+			this.productTaxPrice = productTaxPrice;
 		}
 	}
 	
