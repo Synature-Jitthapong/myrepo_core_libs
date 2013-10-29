@@ -20,7 +20,7 @@ public abstract class DotNetWebServiceTask extends AsyncTask<String, String, Str
 	protected SoapObject soapRequest;
 	protected SoapSerializationEnvelope envelope;
 	protected HttpTransportSE androidHttpTransport;
-	protected int timeout = 30 * 1000;
+	protected int timeout = 60 * 1000;
 	protected String webMethod;
 	protected Context context;
 	protected PropertyInfo property;
