@@ -41,7 +41,7 @@ public abstract class DotNetWebServiceTask extends AsyncTask<String, String, Str
 		String url = uri[0];
 		
 		androidHttpTransport = new HttpTransportSE(url, timeout);
-		androidHttpTransport.debug = true;
+		//androidHttpTransport.debug = true;
 		String soapAction = nameSpace + webMethod;
 		try {
 			androidHttpTransport.call(soapAction, envelope);
