@@ -26,9 +26,17 @@ public class OrderTransaction {
 	private float transactionVatExclude;
 	private float serviceCharge;
 	private float serviceChargeVat;
-	private String remark;
+	private String transactionNote;
 	private String staffName;
 	private String receiptNo;
+
+	public String getTransactionNote() {
+		return transactionNote;
+	}
+
+	public void setTransactionNote(String transactionNote) {
+		this.transactionNote = transactionNote;
+	}
 
 	public String getReceiptNo() {
 		return receiptNo;
@@ -53,15 +61,6 @@ public class OrderTransaction {
 	public void setStaffName(String staffName) {
 		this.staffName = staffName;
 	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
 	public int getTransactionId() {
 		return transactionId;
 	}
