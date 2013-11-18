@@ -29,6 +29,15 @@ public class OrderTransaction {
 	private String transactionNote;
 	private String staffName;
 	private String receiptNo;
+	private String remark;
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	public String getTransactionNote() {
 		return transactionNote;
