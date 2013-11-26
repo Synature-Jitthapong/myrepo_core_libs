@@ -81,7 +81,14 @@ public class Report {
 		private float cash;
 		private float totalPayment;
 		private float diff;
+		private float vatExclude;
 		
+		public float getVatExclude() {
+			return vatExclude;
+		}
+		public void setVatExclude(float vatExclude) {
+			this.vatExclude = vatExclude;
+		}
 		public String getReceiptNo() {
 			return receiptNo;
 		}

@@ -14,19 +14,19 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public abstract class SqliteExternalDatabase extends SQLiteOpenHelper {
-	protected FileManager fileManager;
-	protected String dbFilePath;
-	public SQLiteDatabase db;
-	private String dbName;
-	private final Context myContext;
+	protected FileManager mFileManager;
+	protected String mDatabasePath;
+	public SQLiteDatabase mSqlite;
+	private String mDatabaseName;
+	private final Context mContext;
 	
 	public SqliteExternalDatabase(Context context, String dbDir, String dbName) {
 		super(context, dbName, null, 1);
-		this.myContext = context;
-		this.dbName = dbName;
+		this.mContext = context;
+		this.mDatabaseName = dbName;
 		
-		fileManager = new FileManager(context, dbDir);
-		dbFilePath = fileManager.getFile(dbName).getPath();
+		mFileManager = new FileManager(context, dbDir);
+		mDatabasePath = mFileManager.getFile(dbName).getPath();
 		
 		try {
 			createDataBase();
@@ -79,7 +79,7 @@ public abstract class SqliteExternalDatabase extends SQLiteOpenHelper {
 		SQLiteDatabase checkDB = null;
 
 		try {
-			String myPath = dbFilePath;
+			String myPath = mDatabasePath;
 			checkDB = SQLiteDatabase.openDatabase(myPath, null,
 					SQLiteDatabase.OPEN_READONLY);
 
@@ -103,10 +103,10 @@ public abstract class SqliteExternalDatabase extends SQLiteOpenHelper {
 	 * */
 	private void copyDataBase() throws IOException {
 		// Open your local db as the input stream
-		InputStream myInput = myContext.getAssets().open(dbName);
+		InputStream myInput = mContext.getAssets().open(mDatabaseName);
 
 		// Path to the just created empty db
-		String outFileName = dbFilePath;
+		String outFileName = mDatabasePath;
 
 		// Open the empty db as the output stream
 		OutputStream myOutput = new FileOutputStream(outFileName);
@@ -127,7 +127,7 @@ public abstract class SqliteExternalDatabase extends SQLiteOpenHelper {
 	public void openDataBase() throws SQLException {
 		
 		try {
-			if (db != null && db.isOpen())
+			if (mSqlite != null && mSqlite.isOpen())
 				closeDataBase();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -135,12 +135,12 @@ public abstract class SqliteExternalDatabase extends SQLiteOpenHelper {
 		}
 
 		// Open the database
-		db = SQLiteDatabase.openDatabase(dbFilePath, null,
+		mSqlite = SQLiteDatabase.openDatabase(mDatabasePath, null,
 				SQLiteDatabase.OPEN_READWRITE);
 	}
 
 	public void closeDataBase() throws SQLException {
-		db.close();
+		mSqlite.close();
 	}
 
 	@Override
