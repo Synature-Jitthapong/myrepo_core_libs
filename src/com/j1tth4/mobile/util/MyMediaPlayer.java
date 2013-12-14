@@ -181,9 +181,7 @@ public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener,
 
 	}
 
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		// TODO Auto-generated method stub
+	public void startPlayMedia(){
 		readMedia();
 		try {
 			if(playLst.size() > 0){
@@ -194,6 +192,12 @@ public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener,
 			listener.onError(e);
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		// TODO Auto-generated method stub
+		startPlayMedia();
 	}
 
 	@Override
