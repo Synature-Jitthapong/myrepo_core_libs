@@ -62,6 +62,8 @@ public class Report {
 	}
 
 	public static class ReportDetail{
+		private int transactionId;
+		private int computerId;
 		private int productId;
 		private String productCode;
 		private String productName;
@@ -83,6 +85,18 @@ public class Report {
 		private float diff;
 		private float vatExclude;
 		
+		public int getTransactionId() {
+			return transactionId;
+		}
+		public void setTransactionId(int transactionId) {
+			this.transactionId = transactionId;
+		}
+		public int getComputerId() {
+			return computerId;
+		}
+		public void setComputerId(int computerId) {
+			this.computerId = computerId;
+		}
 		public float getVatExclude() {
 			return vatExclude;
 		}
