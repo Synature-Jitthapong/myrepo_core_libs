@@ -9,10 +9,11 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
-
+import com.syn.mobile.core.R;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public abstract class DotNetWebServiceTask extends AsyncTask<String, String, String> {
 
@@ -40,34 +41,38 @@ public abstract class DotNetWebServiceTask extends AsyncTask<String, String, Str
 		String result = "";
 		String url = uri[0];
 		
-		androidHttpTransport = new HttpTransportSE(url, timeout);
-		//androidHttpTransport.debug = true;
-		String soapAction = nameSpace + webMethod;
-		try {
-			androidHttpTransport.call(soapAction, envelope);
+		ConnectivityManager connMgr = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+		if (networkInfo != null && networkInfo.isConnected()) {
+			
+			System.setProperty("http.keepAlive", "false");
+			
+			androidHttpTransport = new HttpTransportSE(url, timeout);
+			//androidHttpTransport.debug = true;
+			String soapAction = nameSpace + webMethod;
 			try {
-				result = envelope.getResponse().toString();
-			} catch (SoapFault e) {
+				androidHttpTransport.call(soapAction, envelope);
+				try {
+					result = envelope.getResponse().toString();
+				} catch (SoapFault e) {
+					result = e.getMessage();
+					e.printStackTrace();
+				}
+			} catch (IOException e) {
+				result = e.getMessage();
+				e.printStackTrace();
+			} catch (XmlPullParserException e) {
 				result = e.getMessage();
 				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			result = e.getMessage();
-			e.printStackTrace();
-		} catch (XmlPullParserException e) {
-			result = e.getMessage();
-			e.printStackTrace();
-		}
-		
-		if(result == null || result.equals("")){
-			try {
-				result = ((SoapObject) envelope.bodyIn).toString();
-			} catch (Exception e) {
-				result = e.getMessage();
-				e.printStackTrace();
+			
+			if(result == null || result.equals("")){
+				result = context.getString(R.string.cannot_connect);
 			}
+		}else{
+			result = context.getString(R.string.cannot_connect);
 		}
-		
 		return result;
 	}
 }
