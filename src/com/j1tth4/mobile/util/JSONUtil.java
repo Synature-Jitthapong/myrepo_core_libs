@@ -11,6 +11,10 @@ public class JSONUtil {
 		gson = new Gson();
 	}
 	
+	public String toJson(Type type, Object obj){
+		return gson.toJson(obj, type);
+	}
+	
 	public Object toObject(Type type, String json){
 		return gson.fromJson(json, type);
 	}
