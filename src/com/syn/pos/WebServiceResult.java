@@ -1,6 +1,9 @@
 package com.syn.pos;
 
 public class WebServiceResult {
+	public static final int SUCCESS_STATUS = 0;
+	public static final int FAIL_STATUS = -1;
+	
 	private int iResultID;
 	private String szResultData;
 	private int iExtraInteger;
