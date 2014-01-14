@@ -10,7 +10,16 @@ public class ShopData {
 	public List<GlobalProperty> GlobalProperty;
 	public List<Language> Language;
 	public List<ProgramFeature> ProgramFeature;
+	public List<HeaderFooterReceipt> HeaderFooterReceipt;
 	
+	public List<HeaderFooterReceipt> getHeaderFooterReceipt() {
+		return HeaderFooterReceipt;
+	}
+
+	public void setHeaderFooterReceipt(List<HeaderFooterReceipt> headerFooterReceipt) {
+		HeaderFooterReceipt = headerFooterReceipt;
+	}
+
 	public List<ProgramFeature> getProgramFeature() {
 		return ProgramFeature;
 	}
@@ -543,6 +552,31 @@ public class ShopData {
 		}
 		public void setFeatureDesc(String featureDesc) {
 			FeatureDesc = featureDesc;
+		}
+	}
+	
+	public static class HeaderFooterReceipt{
+		private String TextInLine;
+		private int LineType;
+		private int LineOrder;
+		
+		public String getTextInLine() {
+			return TextInLine;
+		}
+		public void setTextInLine(String textInLine) {
+			TextInLine = textInLine;
+		}
+		public int getLineType() {
+			return LineType;
+		}
+		public void setLineType(int lineType) {
+			LineType = lineType;
+		}
+		public int getLineOrder() {
+			return LineOrder;
+		}
+		public void setLineOrder(int lineOrder) {
+			LineOrder = lineOrder;
 		}
 	}
 }
