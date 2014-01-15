@@ -65,6 +65,7 @@ public class Report {
 		private int transactionId;
 		private int computerId;
 		private int productId;
+		private int transStatus;
 		private String productCode;
 		private String productName;
 		private float pricePerUnit;
@@ -85,6 +86,12 @@ public class Report {
 		private float diff;
 		private float vatExclude;
 		
+		public int getTransStatus() {
+			return transStatus;
+		}
+		public void setTransStatus(int transStatus) {
+			this.transStatus = transStatus;
+		}
 		public int getTransactionId() {
 			return transactionId;
 		}
