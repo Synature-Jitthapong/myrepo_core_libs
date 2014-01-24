@@ -4,68 +4,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Report {
-	private int productGroupId;
-	private int productDeptId;
-	private String productGroupCode;
-	private String productGroupName;
-	private String productDeptCode;
-	private String productDeptName;
+	public List<GroupOfProduct> groupOfProductLst = 
+			new ArrayList<GroupOfProduct>();
 	public List<ReportDetail> reportDetail = 
 			new ArrayList<ReportDetail>();
 	
-	public int getProductGroupId() {
-		return productGroupId;
+	public static class GroupOfProduct{
+		private int productGroupId;
+		private String productGroupCode;
+		private String productGroupName;
+		private int productDeptId;
+		private String productDeptCode;
+		private String productDeptName;
+		public List<ReportDetail> reportDetail = 
+				new ArrayList<ReportDetail>();
+		
+		public int getProductDeptId() {
+			return productDeptId;
+		}
+		public void setProductDeptId(int productDeptId) {
+			this.productDeptId = productDeptId;
+		}
+		public String getProductDeptCode() {
+			return productDeptCode;
+		}
+		public void setProductDeptCode(String productDeptCode) {
+			this.productDeptCode = productDeptCode;
+		}
+		public String getProductDeptName() {
+			return productDeptName;
+		}
+		public void setProductDeptName(String productDeptName) {
+			this.productDeptName = productDeptName;
+		}
+		public int getProductGroupId() {
+			return productGroupId;
+		}
+		public void setProductGroupId(int productGroupId) {
+			this.productGroupId = productGroupId;
+		}
+		public String getProductGroupCode() {
+			return productGroupCode;
+		}
+		public void setProductGroupCode(String productGroupCode) {
+			this.productGroupCode = productGroupCode;
+		}
+		public String getProductGroupName() {
+			return productGroupName;
+		}
+		public void setProductGroupName(String productGroupName) {
+			this.productGroupName = productGroupName;
+		}	
 	}
-
-	public void setProductGroupId(int productGroupId) {
-		this.productGroupId = productGroupId;
-	}
-
-	public int getProductDeptId() {
-		return productDeptId;
-	}
-
-	public void setProductDeptId(int productDeptId) {
-		this.productDeptId = productDeptId;
-	}
-
-	public String getProductGroupCode() {
-		return productGroupCode;
-	}
-
-	public void setProductGroupCode(String productGroupCode) {
-		this.productGroupCode = productGroupCode;
-	}
-
-	public String getProductGroupName() {
-		return productGroupName;
-	}
-
-	public void setProductGroupName(String productGroupName) {
-		this.productGroupName = productGroupName;
-	}
-
-	public String getProductDeptCode() {
-		return productDeptCode;
-	}
-
-	public void setProductDeptCode(String productDeptCode) {
-		this.productDeptCode = productDeptCode;
-	}
-
-	public String getProductDeptName() {
-		return productDeptName;
-	}
-
-	public void setProductDeptName(String productDeptName) {
-		this.productDeptName = productDeptName;
-	}
-
+	
 	public static class ReportDetail{
 		private int transactionId;
 		private int computerId;
 		private int productId;
 		private int transStatus;
+		private String productGroupCode;
+		private String productGroupName;
+		private String productDeptCode;
+		private String productDeptName;
 		private String productCode;
 		private String productName;
 		private float pricePerUnit;
@@ -74,6 +74,7 @@ public class Report {
 		private float discount;
 		private float totalPrice;
 		private float subTotal;
+		private float subTotalPercent;
 		private float totalSale;
 		private float totalPricePercent;
 		private String vat;
@@ -86,6 +87,36 @@ public class Report {
 		private float diff;
 		private float vatExclude;
 		
+		public String getProductGroupCode() {
+			return productGroupCode;
+		}
+		public void setProductGroupCode(String productGroupCode) {
+			this.productGroupCode = productGroupCode;
+		}
+		public String getProductGroupName() {
+			return productGroupName;
+		}
+		public void setProductGroupName(String productGroupName) {
+			this.productGroupName = productGroupName;
+		}
+		public String getProductDeptCode() {
+			return productDeptCode;
+		}
+		public void setProductDeptCode(String productDeptCode) {
+			this.productDeptCode = productDeptCode;
+		}
+		public String getProductDeptName() {
+			return productDeptName;
+		}
+		public void setProductDeptName(String productDeptName) {
+			this.productDeptName = productDeptName;
+		}
+		public float getSubTotalPercent() {
+			return subTotalPercent;
+		}
+		public void setSubTotalPercent(float subTotalPercent) {
+			this.subTotalPercent = subTotalPercent;
+		}
 		public int getTransStatus() {
 			return transStatus;
 		}
