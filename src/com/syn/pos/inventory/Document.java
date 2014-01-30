@@ -98,11 +98,11 @@ public class Document{
 		private int shopId;
 		private int productId;
 		private String unitName;
-		private float productQty;
-		private float productUnitPrice;
-		private float productNetPrice;
+		private double productQty;
+		private double productUnitPrice;
+		private double productNetPrice;
 		private int productTaxType;
-		private float productTaxPrice;
+		private double productTaxPrice;
 		
 		public int getDocDetailId() {
 			return docDetailId;
@@ -134,22 +134,22 @@ public class Document{
 		public void setUnitName(String unitName) {
 			this.unitName = unitName;
 		}
-		public float getProductQty() {
+		public double getProductQty() {
 			return productQty;
 		}
-		public void setProductQty(float productQty) {
+		public void setProductQty(double productQty) {
 			this.productQty = productQty;
 		}
-		public float getProductUnitPrice() {
+		public double getProductUnitPrice() {
 			return productUnitPrice;
 		}
-		public void setProductUnitPrice(float productUnitPrice) {
+		public void setProductUnitPrice(double productUnitPrice) {
 			this.productUnitPrice = productUnitPrice;
 		}
-		public float getProductNetPrice() {
+		public double getProductNetPrice() {
 			return productNetPrice;
 		}
-		public void setProductNetPrice(float productNetPrice) {
+		public void setProductNetPrice(double productNetPrice) {
 			this.productNetPrice = productNetPrice;
 		}
 		public int getProductTaxType() {
@@ -158,10 +158,10 @@ public class Document{
 		public void setProductTaxType(int productTaxType) {
 			this.productTaxType = productTaxType;
 		}
-		public float getProductTaxPrice() {
+		public double getProductTaxPrice() {
 			return productTaxPrice;
 		}
-		public void setProductTaxPrice(float productTaxPrice) {
+		public void setProductTaxPrice(double productTaxPrice) {
 			this.productTaxPrice = productTaxPrice;
 		}
 	}

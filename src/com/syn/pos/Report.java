@@ -68,24 +68,24 @@ public class Report {
 		private String productDeptName;
 		private String productCode;
 		private String productName;
-		private float pricePerUnit;
-		private float qty;
-		private float qtyPercent;
-		private float discount;
-		private float totalPrice;
-		private float subTotal;
-		private float subTotalPercent;
-		private float totalSale;
-		private float totalPricePercent;
+		private double pricePerUnit;
+		private double qty;
+		private double qtyPercent;
+		private double discount;
+		private double totalPrice;
+		private double subTotal;
+		private double subTotalPercent;
+		private double totalSale;
+		private double totalPricePercent;
 		private String vat;
 		private String receiptNo;
-		private float serviceCharge;
-		private float vatable;
-		private float totalVat;
-		private float cash;
-		private float totalPayment;
-		private float diff;
-		private float vatExclude;
+		private double serviceCharge;
+		private double vatable;
+		private double totalVat;
+		private double cash;
+		private double totalPayment;
+		private double diff;
+		private double vatExclude;
 		
 		public String getProductGroupCode() {
 			return productGroupCode;
@@ -111,10 +111,10 @@ public class Report {
 		public void setProductDeptName(String productDeptName) {
 			this.productDeptName = productDeptName;
 		}
-		public float getSubTotalPercent() {
+		public double getSubTotalPercent() {
 			return subTotalPercent;
 		}
-		public void setSubTotalPercent(float subTotalPercent) {
+		public void setSubTotalPercent(double subTotalPercent) {
 			this.subTotalPercent = subTotalPercent;
 		}
 		public int getTransStatus() {
@@ -135,10 +135,10 @@ public class Report {
 		public void setComputerId(int computerId) {
 			this.computerId = computerId;
 		}
-		public float getVatExclude() {
+		public double getVatExclude() {
 			return vatExclude;
 		}
-		public void setVatExclude(float vatExclude) {
+		public void setVatExclude(double vatExclude) {
 			this.vatExclude = vatExclude;
 		}
 		public String getReceiptNo() {
@@ -147,46 +147,46 @@ public class Report {
 		public void setReceiptNo(String receiptNo) {
 			this.receiptNo = receiptNo;
 		}
-		public float getPricePerUnit() {
+		public double getPricePerUnit() {
 			return pricePerUnit;
 		}
-		public void setPricePerUnit(float pricePerUnit) {
+		public void setPricePerUnit(double pricePerUnit) {
 			this.pricePerUnit = pricePerUnit;
 		}
-		public float getQty() {
+		public double getQty() {
 			return qty;
 		}
-		public void setQty(float qty) {
+		public void setQty(double qty) {
 			this.qty = qty;
 		}
-		public float getQtyPercent() {
+		public double getQtyPercent() {
 			return qtyPercent;
 		}
-		public void setQtyPercent(float qtyPercent) {
+		public void setQtyPercent(double qtyPercent) {
 			this.qtyPercent = qtyPercent;
 		}
-		public float getTotalPrice() {
+		public double getTotalPrice() {
 			return totalPrice;
 		}
-		public void setTotalPrice(float totalPrice) {
+		public void setTotalPrice(double totalPrice) {
 			this.totalPrice = totalPrice;
 		}
-		public float getSubTotal() {
+		public double getSubTotal() {
 			return subTotal;
 		}
-		public void setSubTotal(float subTotal) {
+		public void setSubTotal(double subTotal) {
 			this.subTotal = subTotal;
 		}
-		public float getTotalSale() {
+		public double getTotalSale() {
 			return totalSale;
 		}
-		public void setTotalSale(float totalSale) {
+		public void setTotalSale(double totalSale) {
 			this.totalSale = totalSale;
 		}
-		public float getTotalVat() {
+		public double getTotalVat() {
 			return totalVat;
 		}
-		public void setTotalVat(float totalVat) {
+		public void setTotalVat(double totalVat) {
 			this.totalVat = totalVat;
 		}
 		public int getProductId() {
@@ -207,16 +207,16 @@ public class Report {
 		public void setProductName(String productName) {
 			this.productName = productName;
 		}
-		public float getDiscount() {
+		public double getDiscount() {
 			return discount;
 		}
-		public void setDiscount(float discount) {
+		public void setDiscount(double discount) {
 			this.discount = discount;
 		}
-		public float getTotalPricePercent() {
+		public double getTotalPricePercent() {
 			return totalPricePercent;
 		}
-		public void setTotalPricePercent(float totalPricePercent) {
+		public void setTotalPricePercent(double totalPricePercent) {
 			this.totalPricePercent = totalPricePercent;
 		}
 		public String getVat() {
@@ -225,34 +225,34 @@ public class Report {
 		public void setVat(String vat) {
 			this.vat = vat;
 		}
-		public float getServiceCharge() {
+		public double getServiceCharge() {
 			return serviceCharge;
 		}
-		public void setServiceCharge(float serviceCharge) {
+		public void setServiceCharge(double serviceCharge) {
 			this.serviceCharge = serviceCharge;
 		}
-		public float getVatable() {
+		public double getVatable() {
 			return vatable;
 		}
-		public void setVatable(float vatable) {
+		public void setVatable(double vatable) {
 			this.vatable = vatable;
 		}
-		public float getCash() {
+		public double getCash() {
 			return cash;
 		}
-		public void setCash(float cash) {
+		public void setCash(double cash) {
 			this.cash = cash;
 		}
-		public float getTotalPayment() {
+		public double getTotalPayment() {
 			return totalPayment;
 		}
-		public void setTotalPayment(float totalPayment) {
+		public void setTotalPayment(double totalPayment) {
 			this.totalPayment = totalPayment;
 		}
-		public float getDiff() {
+		public double getDiff() {
 			return diff;
 		}
-		public void setDiff(float diff) {
+		public void setDiff(double diff) {
 			this.diff = diff;
 		}
 	}

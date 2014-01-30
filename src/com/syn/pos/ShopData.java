@@ -76,7 +76,7 @@ public class ShopData {
 		private int FastFoodType;
 		private int TableType;
 		private int VatType;
-		private float ServiceCharge;
+		private double ServiceCharge;
 		private int ServiceChargeType;
 		private String OpenHour;
 		private String CloseHour;
@@ -91,7 +91,7 @@ public class ShopData {
 		private String CompanyFax;
 		private String CompanyTaxID;
 		private String CompanyRegisterID;
-		private float CompanyVat;
+		private double CompanyVat;
 		private int FeatureQueue;
 		private int CommentType;
 
@@ -159,11 +159,11 @@ public class ShopData {
 			VatType = vatType;
 		}
 
-		public float getServiceCharge() {
+		public double getServiceCharge() {
 			return ServiceCharge;
 		}
 
-		public void setServiceCharge(float serviceCharge) {
+		public void setServiceCharge(double serviceCharge) {
 			ServiceCharge = serviceCharge;
 		}
 
@@ -288,11 +288,11 @@ public class ShopData {
 			CompanyRegisterID = companyRegisterID;
 		}
 
-		public float getCompanyVat() {
+		public double getCompanyVat() {
 			return CompanyVat;
 		}
 
-		public void setCompanyVat(float companyVat) {
+		public void setCompanyVat(double companyVat) {
 			CompanyVat = companyVat;
 		}
 	}
