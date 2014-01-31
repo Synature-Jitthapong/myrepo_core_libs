@@ -4,10 +4,10 @@ public class OrderTransaction {
 	private int transactionId;
 	private int computerId;
 	private int shopId;
-	private long openTime;
-	private long closeTime;
+	private String openTime;
+	private String closeTime;
 	private int openStaffId;
-	private long paidTime;
+	private String paidTime;
 	private int paidStaffId;
 	private int transactionStatusId;
 	private int saleMode;
@@ -15,11 +15,11 @@ public class OrderTransaction {
 	private int receiptYear;
 	private int receiptMonth;
 	private int receiptId;
-	private long saleDate;
+	private String saleDate;
 	private int sessionId;
 	private int voidStaffId;
 	private String voidReason;
-	private long voidTime;
+	private String voidTime;
 	private int memberId;
 	private double transactionVatable;
 	private double transactionVat;
@@ -78,43 +78,43 @@ public class OrderTransaction {
 		this.transactionId = transactionId;
 	}
 
-	public long getOpenTime() {
+	public String getOpenTime() {
 		return openTime;
 	}
 
-	public void setOpenTime(long openTime) {
+	public void setOpenTime(String openTime) {
 		this.openTime = openTime;
 	}
 
-	public long getCloseTime() {
+	public String getCloseTime() {
 		return closeTime;
 	}
 
-	public void setCloseTime(long closeTime) {
+	public void setCloseTime(String closeTime) {
 		this.closeTime = closeTime;
 	}
 
-	public long getPaidTime() {
+	public String getPaidTime() {
 		return paidTime;
 	}
 
-	public void setPaidTime(long paidTime) {
+	public void setPaidTime(String paidTime) {
 		this.paidTime = paidTime;
 	}
 
-	public long getSaleDate() {
+	public String getSaleDate() {
 		return saleDate;
 	}
 
-	public void setSaleDate(long saleDate) {
+	public void setSaleDate(String saleDate) {
 		this.saleDate = saleDate;
 	}
 
-	public long getVoidTime() {
+	public String getVoidTime() {
 		return voidTime;
 	}
 
-	public void setVoidTime(long voidTime) {
+	public void setVoidTime(String voidTime) {
 		this.voidTime = voidTime;
 	}
 
