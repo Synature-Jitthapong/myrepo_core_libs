@@ -83,10 +83,17 @@ public class Report {
 		private double vatable;
 		private double totalVat;
 		private double cash;
+		private double credit;
 		private double totalPayment;
 		private double diff;
 		private double vatExclude;
-		
+
+		public double getCredit() {
+			return credit;
+		}
+		public void setCredit(double credit) {
+			this.credit = credit;
+		}
 		public String getProductGroupCode() {
 			return productGroupCode;
 		}
