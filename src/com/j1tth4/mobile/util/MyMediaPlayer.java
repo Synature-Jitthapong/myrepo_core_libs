@@ -146,7 +146,7 @@ public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener,
 		doCleanUp();
 		try {
 			mMediaPlayer.reset();
-			mMediaPlayer.setDataSource(playLst.get(currMediaIndex).get("vdoPath"));
+			mMediaPlayer.setDataSource(playLst.get(currMediaIndex).get(MediaManager.FILE_PATH));
 			mMediaPlayer.setDisplay(surfaceHolder);
 			mMediaPlayer.prepare();
 			mMediaPlayer.setScreenOnWhilePlaying(true);
@@ -154,7 +154,7 @@ public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener,
 			mMediaPlayer.setOnCompletionListener(this);
 			mMediaPlayer.setOnVideoSizeChangedListener(this);
 			
-			listener.onPlayedFileName(playLst.get(currMediaIndex).get("vdoTitle"));
+			listener.onPlayedFileName(playLst.get(currMediaIndex).get(MediaManager.FILE_TITLE));
 		} catch (IllegalArgumentException e) {
 			listener.onError(e);
 			e.printStackTrace();
@@ -172,7 +172,7 @@ public class MyMediaPlayer implements OnCompletionListener, OnPreparedListener,
 	
 	private void readMedia(){
 		mediaManager = new MediaManager(context, mediaPath);
-		playLst = mediaManager.getPlayList();
+		playLst = mediaManager.getVideoPlayList();
 	}
 
 	@Override

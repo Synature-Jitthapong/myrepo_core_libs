@@ -7,48 +7,53 @@ import java.util.HashMap;
 
 import android.content.Context;
 
-public class MediaManager {
-	private File mediaDir;
-	private ArrayList<HashMap<String, String>> vdoList = 
+public class MediaManager extends FileManager{
+	public static final String MP3_EXTENSION = ".mp3";
+	public static final String M4A_EXTENSION = ".m4a";
+	public static final String AVI_EXTENSION = ".avi";
+	public static final String WMV_EXTENSION = ".wmv";
+	public static final String MPEG_EXTENSION = ".mpeg";
+	public static final String MP4_EXTENSION = ".mp4";
+	public static final String WAV_EXTENSION = ".wav";
+	public static final String FILE_TITLE = "title";
+	public static final String FILE_PATH = "path";
+
+	private ArrayList<HashMap<String, String>> mVdoList = 
 			new ArrayList<HashMap<String, String>>();
 
-	public MediaManager(Context context, String dirName) {
-		final String fileDir = File.separator + dirName;
-		if (android.os.Environment.getExternalStorageState().equals(
-				android.os.Environment.MEDIA_MOUNTED))
-			mediaDir = new File(
-					android.os.Environment.getExternalStorageDirectory(),
-					fileDir);
-		else
-			mediaDir = context.getCacheDir();
-		if (!mediaDir.exists())
-			mediaDir.mkdirs();
+	public MediaManager(Context context, String folderName) {
+		super(context, folderName);
 	}
 
-	public ArrayList<HashMap<String, String>> getPlayList() {
-		File[] files = mediaDir.listFiles(new FileExtensionFilter());
-
+	public ArrayList<HashMap<String, String>> getVideoPlayList() {
+		File[] files = mSdcard.listFiles(new VideoFileExtensionFilter());
 		if (files.length > 0) {
-			for (File file : files) {
+			for (File f : files) {
 				HashMap<String, String> vdo = new HashMap<String, String>();
-				vdo.put("vdoTitle", file.getName());
-				vdo.put("vdoPath", file.getPath());
+				vdo.put(FILE_TITLE, f.getName());
+				vdo.put(FILE_PATH, f.getPath());
 
-				vdoList.add(vdo);
+				mVdoList.add(vdo);
 			}
 		}
-		return vdoList;
-	}
-	
-	public String getPathFile(String fileName){
-		File f = new File(mediaDir, fileName);
-		return f.getPath() + ".m4a";
+		return mVdoList;
 	}
 
-	class FileExtensionFilter implements FilenameFilter {
+	public File getSdCard(){
+		return mSdcard;
+	}
+	
+	public static class SoundFileExtensionFilter implements FilenameFilter {
 		public boolean accept(File dir, String name) {
-			return (name.endsWith(".mp4") || name.endsWith(".avi") || name
-					.endsWith(".mpeg") || name.endsWith(".mp3"));
+			return (name.endsWith(MP3_EXTENSION) || name.endsWith(M4A_EXTENSION) ||
+					name.endsWith(WAV_EXTENSION));
+		}
+	}
+	
+	public static class VideoFileExtensionFilter implements FilenameFilter {
+		public boolean accept(File dir, String name) {
+			return (name.endsWith(MP4_EXTENSION) || name.endsWith(AVI_EXTENSION) || 
+					name.endsWith(MPEG_EXTENSION) || name.endsWith(WMV_EXTENSION));
 		}
 	}
 }

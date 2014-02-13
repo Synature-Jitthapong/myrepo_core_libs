@@ -5,18 +5,19 @@ import java.io.File;
 import android.content.Context;
 
 public class FileManager {
-	 
-    private File mSdcard;
+    protected File mSdcard;
     
-    public FileManager(Context context, String folderName){
-        final String fileFolder = folderName; 
-        //Find the dir to save cached images
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-            mSdcard=new File(android.os.Environment.getExternalStorageDirectory(), fileFolder);
-        else
-            mSdcard=context.getCacheDir();
-        if(!mSdcard.exists())
-            mSdcard.mkdirs();
+    public FileManager(Context context, String dirName){
+    	final String fileDir = File.separator + dirName;
+		if (android.os.Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED))
+			mSdcard = new File(
+					android.os.Environment.getExternalStorageDirectory(),
+					fileDir);
+		else
+			mSdcard = context.getCacheDir();
+		if (!mSdcard.exists())
+			mSdcard.mkdirs();
     }
     
     public File getHashFile(String url){
