@@ -15,6 +15,7 @@ public class MediaManager extends FileManager{
 	public static final String MPEG_EXTENSION = ".mpeg";
 	public static final String MP4_EXTENSION = ".mp4";
 	public static final String WAV_EXTENSION = ".wav";
+	public static final String OGG_EXTENSION = ".ogg";
 	public static final String FILE_TITLE = "title";
 	public static final String FILE_PATH = "path";
 
@@ -46,7 +47,7 @@ public class MediaManager extends FileManager{
 	public static class SoundFileExtensionFilter implements FilenameFilter {
 		public boolean accept(File dir, String name) {
 			return (name.endsWith(MP3_EXTENSION) || name.endsWith(M4A_EXTENSION) ||
-					name.endsWith(WAV_EXTENSION));
+					name.endsWith(WAV_EXTENSION) || name.endsWith(OGG_EXTENSION));
 		}
 	}
 	

@@ -11,37 +11,38 @@ import android.content.Context;
 import android.util.Log;
 
 public abstract class Logger {
-	private Context context;
-	private String logDir;
-	private String fileName;
-	private SimpleDateFormat timeFormat;
-	private SimpleDateFormat dateFormat;
+	public static final String FILE_EXTENSION = ".txt";
+	private Context mContext;
+	private String mLogDir;
+	private String mFileName;
+	private SimpleDateFormat mTimeFormat;
+	private SimpleDateFormat mDateFormat;
 	private Date date;
 	
 	public Logger(Context c, String logDir, String fileName){
-		this.context = c;
-		this.logDir = logDir;
-		this.fileName = fileName;
+		mContext = c;
+		mLogDir = logDir;
+		mFileName = fileName;
 
 		date = new Date();
-		timeFormat = 
+		mTimeFormat = 
 				new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-		dateFormat = 
+		mDateFormat = 
 				new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-		this.fileName += "_" + dateFormat.format(date);
+		mFileName += "_" + mDateFormat.format(date) + FILE_EXTENSION;
 	}
 	
 	public void appendLog(String mesg) {
 		
-		FileManager fileManager = new FileManager(context, logDir);
-		String logFile = fileManager.getFile(fileName).getPath();
+		FileManager fileManager = new FileManager(mContext, mLogDir);
+		String logFile = fileManager.getFile(mFileName).getPath();
 		
 		try {
 			// BufferedWriter for performance, true to set append to file flag
 			BufferedWriter buf = new BufferedWriter(new FileWriter(logFile,
 					true));
 			buf.newLine();
-			buf.append(timeFormat.format(date) + " " + mesg);
+			buf.append(mTimeFormat.format(date) + " " + mesg);
 			buf.close();
 		} catch (IOException e) {
 			Log.d("LOGGER", e.getMessage());
