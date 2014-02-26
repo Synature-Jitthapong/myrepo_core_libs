@@ -1,33 +1,33 @@
 package com.syn.pos;
 
 public class BankName {
-	private int bankNameId;
-	private String bankName;
+	private int BankNameID;
+	private String BankName;
 	
 	public BankName(){
 		
 	}
 	
 	public BankName(int id, String name){
-		this.bankNameId = id;
-		this.bankName = name;
+		this.BankNameID = id;
+		this.BankName = name;
 	}
 	
 	public int getBankNameId() {
-		return bankNameId;
+		return BankNameID;
 	}
 	public void setBankNameId(int bankNameId) {
-		this.bankNameId = bankNameId;
+		this.BankNameID = bankNameId;
 	}
 	public String getBankName() {
-		return bankName;
+		return BankName;
 	}
 	public void setBankName(String bankName) {
-		this.bankName = bankName;
+		this.BankName = bankName;
 	}
 
 	@Override
 	public String toString() {
-		return bankName;
+		return BankName;
 	}
 }

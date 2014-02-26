@@ -1,37 +1,37 @@
 package com.syn.pos;
 
 public class CreditCardType {
-	private int creditCardTypeId;
-	private String creditCardTypeName;
+	private int CreditCardTypeID;
+	private String CreditCardTypeName;
 	
 	public CreditCardType(){
 		
 	}
 	
 	public CreditCardType(int type, String name){
-		this.creditCardTypeId = type;
-		this.creditCardTypeName = name;
+		this.CreditCardTypeID = type;
+		this.CreditCardTypeName = name;
 	}
 
 	public int getCreditCardTypeId() {
-		return creditCardTypeId;
+		return CreditCardTypeID;
 	}
 
 	public void setCreditCardTypeId(int creditCardTypeId) {
-		this.creditCardTypeId = creditCardTypeId;
+		this.CreditCardTypeID = creditCardTypeId;
 	}
 
 	public String getCreditCardTypeName() {
-		return creditCardTypeName;
+		return CreditCardTypeName;
 	}
 
 	public void setCreditCardTypeName(String creditCardTypeName) {
-		this.creditCardTypeName = creditCardTypeName;
+		this.CreditCardTypeName = creditCardTypeName;
 	}
 
 	@Override
 	public String toString() {
-		return creditCardTypeName;
+		return CreditCardTypeName;
 	}
 	
 }

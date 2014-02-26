@@ -87,7 +87,14 @@ public class Report {
 		private double totalPayment;
 		private double diff;
 		private double vatExclude;
+		private int sendStatus;
 
+		public int getSendStatus() {
+			return sendStatus;
+		}
+		public void setSendStatus(int sendStatus) {
+			this.sendStatus = sendStatus;
+		}
 		public double getCredit() {
 			return credit;
 		}

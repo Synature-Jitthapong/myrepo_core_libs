@@ -11,7 +11,44 @@ public class ShopData {
 	public List<Language> Language;
 	public List<ProgramFeature> ProgramFeature;
 	public List<HeaderFooterReceipt> HeaderFooterReceipt;
+	public List<BankName> BankName;
+	public List<CreditCardType> CreditCardType;
+	public List<Payment.PaymentAmountButton> PaymentAmountButton;
+	public List<Payment.PayType> PayType; 
 	
+	public List<BankName> getBankName() {
+		return BankName;
+	}
+
+	public void setBankName(List<BankName> bankName) {
+		BankName = bankName;
+	}
+
+	public List<CreditCardType> getCreditCardType() {
+		return CreditCardType;
+	}
+
+	public void setCreditCardType(List<CreditCardType> creditCardType) {
+		CreditCardType = creditCardType;
+	}
+
+	public List<Payment.PaymentAmountButton> getPaymentAmountButton() {
+		return PaymentAmountButton;
+	}
+
+	public void setPaymentAmountButton(
+			List<Payment.PaymentAmountButton> paymentAmountButton) {
+		PaymentAmountButton = paymentAmountButton;
+	}
+
+	public List<Payment.PayType> getPayType() {
+		return PayType;
+	}
+
+	public void setPayType(List<Payment.PayType> payType) {
+		PayType = payType;
+	}
+
 	public List<HeaderFooterReceipt> getHeaderFooterReceipt() {
 		return HeaderFooterReceipt;
 	}

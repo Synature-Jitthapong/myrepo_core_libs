@@ -9,7 +9,14 @@ public class Payment {
 	public static class PaymentAmountButton{
 		private int PaymentAmountID;
 		private double PaymentAmount;
+		private int Ordering;
 		
+		public int getOrdering() {
+			return Ordering;
+		}
+		public void setOrdering(int ordering) {
+			Ordering = ordering;
+		}
 		public int getPaymentAmountID() {
 			return PaymentAmountID;
 		}
@@ -30,6 +37,7 @@ public class Payment {
 		private int ComputerID;
 		private int ShopID;
 		private double PayAmount;
+		private double Paid;
 		private String CreaditCardNo;
 		private int ExpireMonth;
 		private int ExpireYear;
@@ -37,6 +45,12 @@ public class Payment {
 		private int CreditCardType;
 		private String Remark;
 		
+		public double getPaid() {
+			return Paid;
+		}
+		public void setPaid(double paid) {
+			Paid = paid;
+		}
 		public int getPaymentDetailID() {
 			return PaymentDetailID;
 		}
@@ -109,7 +123,14 @@ public class Payment {
 		private int PayTypeID;
 		private String PayTypeCode;
 		private String PayTypeName;
+		private int Ordering;
 		
+		public int getOrdering() {
+			return Ordering;
+		}
+		public void setOrdering(int ordering) {
+			Ordering = ordering;
+		}
 		public int getPayTypeID() {
 			return PayTypeID;
 		}
