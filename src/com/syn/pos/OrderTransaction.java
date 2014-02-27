@@ -30,6 +30,15 @@ public class OrderTransaction {
 	private String staffName;
 	private String receiptNo;
 	private String remark;
+	private int sendStatus;
+
+	public int getSendStatus() {
+		return sendStatus;
+	}
+
+	public void setSendStatus(int sendStatus) {
+		this.sendStatus = sendStatus;
+	}
 
 	public String getRemark() {
 		return remark;
