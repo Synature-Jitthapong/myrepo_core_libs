@@ -1,6 +1,9 @@
 package com.j1tth4.mobile.util;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -9,31 +12,33 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
+
 import com.syn.mobile.core.R;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
 public abstract class DotNetWebServiceTask extends AsyncTask<String, String, String> {
-
-	private final String nameSpace = "http://tempuri.org/";
-	protected SoapObject soapRequest;
-	protected SoapSerializationEnvelope envelope;
-	protected HttpTransportSE androidHttpTransport;
-	protected int timeout = 30 * 1000;
-	protected String webMethod;
-	protected Context context;
-	protected PropertyInfo property;
+	private static final String NAME_SPACE = "http://tempuri.org/";
+	protected SoapObject mSoapRequest;
+	protected SoapSerializationEnvelope mEnvelope;
+	protected HttpTransportSE mAndroidHttpTransport;
+	protected int mTimeout = 30 * 1000;
+	protected String mWebMethod;
+	protected Context mContext;
+	protected PropertyInfo mProperty;
+	protected String mHttpErrMsg;
 	
 	public DotNetWebServiceTask(Context c, String method){
-		context = c;
-		webMethod = method;
+		mContext = c;
+		mWebMethod = method;
 
-		soapRequest = new SoapObject(nameSpace, webMethod);
-		envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-		envelope.dotNet = true;
-		envelope.setOutputSoapObject(soapRequest);
+		mSoapRequest = new SoapObject(NAME_SPACE, mWebMethod);
+		mEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		mEnvelope.dotNet = true;
+		mEnvelope.setOutputSoapObject(mSoapRequest);
 	}
 	
 	@Override
@@ -41,38 +46,59 @@ public abstract class DotNetWebServiceTask extends AsyncTask<String, String, Str
 		String result = "";
 		String url = uri[0];
 		
-		ConnectivityManager connMgr = (ConnectivityManager) context
+		ConnectivityManager connMgr = (ConnectivityManager) mContext
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 		if (networkInfo != null && networkInfo.isConnected()) {
-			
 			System.setProperty("http.keepAlive", "false");
-			
-			androidHttpTransport = new HttpTransportSE(url, timeout);
-			//androidHttpTransport.debug = true;
-			String soapAction = nameSpace + webMethod;
-			try {
-				androidHttpTransport.call(soapAction, envelope);
+			if(checkServerStatus(url)){
+				mAndroidHttpTransport = new HttpTransportSE(url, mTimeout);
+				//androidHttpTransport.debug = true;
+				String soapAction = NAME_SPACE + mWebMethod;
 				try {
-					result = envelope.getResponse().toString();
-				} catch (SoapFault e) {
+					mAndroidHttpTransport.call(soapAction, mEnvelope);
+					try {
+						result = mEnvelope.getResponse().toString();
+					} catch (SoapFault e) {
+						result = e.getMessage();
+						e.printStackTrace();
+					}
+				} catch (IOException e) {
+					result = e.getMessage();
+					e.printStackTrace();
+				} catch (XmlPullParserException e) {
 					result = e.getMessage();
 					e.printStackTrace();
 				}
-			} catch (IOException e) {
-				result = e.getMessage();
-				e.printStackTrace();
-			} catch (XmlPullParserException e) {
-				result = e.getMessage();
-				e.printStackTrace();
-			}
-			
-			if(result == null || result.equals("")){
-				result = context.getString(R.string.cannot_connect);
+				
+				if(result == null || result.equals("")){
+					result = mContext.getString(R.string.cannot_connect);
+				}
+			}else{
+				result = mHttpErrMsg;
 			}
 		}else{
-			result = context.getString(R.string.cannot_connect);
+			result = mContext.getString(R.string.cannot_connect);
 		}
 		return result;
+	}
+	
+	protected boolean checkServerStatus(String strUrl){
+		try {
+			URL url = new URL(strUrl);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.connect();
+			if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
+				return true;
+			}else{
+				mHttpErrMsg = conn.getResponseMessage();
+				return false;
+			}
+		} catch (MalformedURLException e) {
+			mHttpErrMsg = e.getMessage();
+		} catch (IOException e) {
+			mHttpErrMsg = e.getMessage();
+		}
+		return false;
 	}
 }
