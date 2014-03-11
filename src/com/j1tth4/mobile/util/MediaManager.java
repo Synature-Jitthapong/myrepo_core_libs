@@ -44,10 +44,15 @@ public class MediaManager extends FileManager{
 		return mSdcard;
 	}
 	
-	public static class SoundFileExtensionFilter implements FilenameFilter {
+	public static class WAVExtensionFilter implements FilenameFilter {
 		public boolean accept(File dir, String name) {
-			return (name.endsWith(MP3_EXTENSION) || name.endsWith(M4A_EXTENSION) ||
-					name.endsWith(WAV_EXTENSION) || name.endsWith(OGG_EXTENSION));
+			return (name.endsWith(WAV_EXTENSION));
+		}
+	}
+	
+	public static class MP3ExtensionFilter implements FilenameFilter {
+		public boolean accept(File dir, String name) {
+			return (name.endsWith(MP3_EXTENSION));
 		}
 	}
 	

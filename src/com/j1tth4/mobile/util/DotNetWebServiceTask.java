@@ -21,7 +21,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
 public abstract class DotNetWebServiceTask extends AsyncTask<String, String, String> {
-	private static final String NAME_SPACE = "http://tempuri.org/";
+	public static final String NAME_SPACE = "http://tempuri.org/";
 	protected SoapObject mSoapRequest;
 	protected SoapSerializationEnvelope mEnvelope;
 	protected HttpTransportSE mAndroidHttpTransport;
