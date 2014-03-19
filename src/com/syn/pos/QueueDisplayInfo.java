@@ -10,6 +10,51 @@ public class QueueDisplayInfo {
 	private String szCurQueueCustomerA;
 	private String szCurQueueCustomerB;
 	private String szCurQueueCustomerC;
+	private String szCurQueueCustomerD;
+	private String szCurQueueDateA;
+	private String szCurQueueDateB;
+	private String szCurQueueDateC;
+	private String szCurQueueDateD;
+
+	public String getSzCurQueueCustomerD() {
+		return szCurQueueCustomerD;
+	}
+
+	public void setSzCurQueueCustomerD(String szCurQueueCustomerD) {
+		this.szCurQueueCustomerD = szCurQueueCustomerD;
+	}
+
+	public String getSzCurQueueDateA() {
+		return szCurQueueDateA;
+	}
+
+	public void setSzCurQueueDateA(String szCurQueueDateA) {
+		this.szCurQueueDateA = szCurQueueDateA;
+	}
+
+	public String getSzCurQueueDateB() {
+		return szCurQueueDateB;
+	}
+
+	public void setSzCurQueueDateB(String szCurQueueDateB) {
+		this.szCurQueueDateB = szCurQueueDateB;
+	}
+
+	public String getSzCurQueueDateC() {
+		return szCurQueueDateC;
+	}
+
+	public void setSzCurQueueDateC(String szCurQueueDateC) {
+		this.szCurQueueDateC = szCurQueueDateC;
+	}
+
+	public String getSzCurQueueDateD() {
+		return szCurQueueDateD;
+	}
+
+	public void setSzCurQueueDateD(String szCurQueueDateD) {
+		this.szCurQueueDateD = szCurQueueDateD;
+	}
 
 	public String getSzCurQueueCustomerA() {
 		return szCurQueueCustomerA;
