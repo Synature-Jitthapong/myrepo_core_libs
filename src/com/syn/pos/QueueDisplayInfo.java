@@ -7,6 +7,7 @@ public class QueueDisplayInfo {
 	private String szCurQueueGroupA;
 	private String szCurQueueGroupB;
 	private String szCurQueueGroupC;
+	private String szCurQueueGroupD;
 	private String szCurQueueCustomerA;
 	private String szCurQueueCustomerB;
 	private String szCurQueueCustomerC;
@@ -15,6 +16,14 @@ public class QueueDisplayInfo {
 	private String szCurQueueDateB;
 	private String szCurQueueDateC;
 	private String szCurQueueDateD;
+
+	public String getSzCurQueueGroupD() {
+		return szCurQueueGroupD;
+	}
+
+	public void setSzCurQueueGroupD(String szCurQueueGroupD) {
+		this.szCurQueueGroupD = szCurQueueGroupD;
+	}
 
 	public String getSzCurQueueCustomerD() {
 		return szCurQueueCustomerD;
