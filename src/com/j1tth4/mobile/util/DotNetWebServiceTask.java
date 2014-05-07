@@ -51,54 +51,31 @@ public abstract class DotNetWebServiceTask extends AsyncTask<String, String, Str
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 		if (networkInfo != null && networkInfo.isConnected()) {
 			System.setProperty("http.keepAlive", "false");
-			if(checkServerStatus(url)){
-				mAndroidHttpTransport = new HttpTransportSE(url, mTimeout);
-				//androidHttpTransport.debug = true;
-				String soapAction = NAME_SPACE + mWebMethod;
+			mAndroidHttpTransport = new HttpTransportSE(url, mTimeout);
+			//androidHttpTransport.debug = true;
+			String soapAction = NAME_SPACE + mWebMethod;
+			try {
+				mAndroidHttpTransport.call(soapAction, mEnvelope);
 				try {
-					mAndroidHttpTransport.call(soapAction, mEnvelope);
-					try {
-						result = mEnvelope.getResponse().toString();
-					} catch (SoapFault e) {
-						result = e.getMessage();
-						e.printStackTrace();
-					}
-				} catch (IOException e) {
-					result = e.getMessage();
-					e.printStackTrace();
-				} catch (XmlPullParserException e) {
+					result = mEnvelope.getResponse().toString();
+				} catch (SoapFault e) {
 					result = e.getMessage();
 					e.printStackTrace();
 				}
-				
-				if(result == null || result.equals("")){
-					result = mContext.getString(R.string.cannot_connect);
-				}
-			}else{
-				result = mHttpErrMsg;
+			} catch (IOException e) {
+				result = e.getMessage();
+				e.printStackTrace();
+			} catch (XmlPullParserException e) {
+				result = e.getMessage();
+				e.printStackTrace();
+			}
+			
+			if(result == null || result.equals("")){
+				result = mContext.getString(R.string.cannot_connect);
 			}
 		}else{
 			result = mContext.getString(R.string.cannot_connect);
 		}
 		return result;
-	}
-	
-	protected boolean checkServerStatus(String strUrl){
-		try {
-			URL url = new URL(strUrl);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.connect();
-			if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
-				return true;
-			}else{
-				mHttpErrMsg = conn.getResponseMessage();
-				return false;
-			}
-		} catch (MalformedURLException e) {
-			mHttpErrMsg = e.getMessage();
-		} catch (IOException e) {
-			mHttpErrMsg = e.getMessage();
-		}
-		return false;
 	}
 }
