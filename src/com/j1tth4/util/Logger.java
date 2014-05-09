@@ -1,4 +1,4 @@
-package com.j1tth4.mobile.util;
+package com.j1tth4.util;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -10,7 +10,7 @@ import java.util.Locale;
 import android.content.Context;
 import android.util.Log;
 
-public abstract class Logger {
+public class Logger {
 
 	public static final String FILE_EXTENSION = ".txt";
 	

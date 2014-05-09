@@ -1,4 +1,4 @@
-package com.j1tth4.mobile.util;
+package com.j1tth4.util;
 
 import java.security.MessageDigest;
 import java.util.Locale;

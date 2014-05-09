@@ -1,4 +1,4 @@
-package com.j1tth4.mobile.util;
+package com.j1tth4.util;
 
 import java.io.File;
 import java.io.FilenameFilter;
