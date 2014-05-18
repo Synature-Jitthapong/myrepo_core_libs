@@ -58,6 +58,7 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler{
         errorReport.append(LINE_SEPARATOR);
         
         Logger.appendLog(mContext, mLogDir, mFileName, errorReport.toString());
+        System.exit(-1);
 	}
 
 }
