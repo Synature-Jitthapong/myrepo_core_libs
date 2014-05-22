@@ -4,11 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Report {
-	public List<GroupOfProduct> groupOfProductLst = 
+	private List<GroupOfProduct> groupOfProductLst = 
 			new ArrayList<GroupOfProduct>();
-	public List<ReportDetail> reportDetail = 
+	private List<ReportDetail> reportDetail = 
 			new ArrayList<ReportDetail>();
 	
+	public List<GroupOfProduct> getGroupOfProductLst() {
+		return groupOfProductLst;
+	}
+
+	public void setGroupOfProductLst(List<GroupOfProduct> groupOfProductLst) {
+		this.groupOfProductLst = groupOfProductLst;
+	}
+
+	public List<ReportDetail> getReportDetail() {
+		return reportDetail;
+	}
+
+	public void setReportDetail(List<ReportDetail> reportDetail) {
+		this.reportDetail = reportDetail;
+	}
+
 	public static class GroupOfProduct{
 		private int productGroupId;
 		private String productGroupCode;
@@ -16,9 +32,15 @@ public class Report {
 		private int productDeptId;
 		private String productDeptCode;
 		private String productDeptName;
-		public List<ReportDetail> reportDetail = 
+		private List<ReportDetail> reportDetail = 
 				new ArrayList<ReportDetail>();
 		
+		public List<ReportDetail> getReportDetail() {
+			return reportDetail;
+		}
+		public void setReportDetail(List<ReportDetail> reportDetail) {
+			this.reportDetail = reportDetail;
+		}
 		public int getProductDeptId() {
 			return productDeptId;
 		}
